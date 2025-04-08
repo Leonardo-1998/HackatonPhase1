@@ -1,0 +1,49 @@
+Table Users {
+  id serial [pk]
+  username varchar
+  email varchar
+  password varchar
+}
+
+Table Profiles{
+  id serial [pk]
+  UserId integer [ref: - Users.id]
+  name varchar
+  phone_number integer
+  profile_pic varchar
+}
+
+Table Hotels {
+  id serial [pk]
+  name varchar
+  address varchar
+}
+
+Table Rooms {
+  id serial [pk]
+  HotelId int [ref: > Hotels.id]
+  room_number varchar
+  type varchar
+  price integer
+}
+
+Table Reservations {
+  id serial [pk]
+  UserId int [ref: > Users.id]
+  RoomId int [ref: > Rooms.id]
+  check_in date
+  check_out date
+}
+
+
+
+Table Amenities {
+  id serial [pk]
+  name varchar
+}
+
+Table RoomAmenities {
+  RoomId int [ref: > Rooms.id]
+  AmenityId int [ref: > Amenities.id]
+  Note: "Join table for Room <-> Amenity many-to-many relationship"
+}
