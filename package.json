@@ -3,15 +3,22 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "npx sequelize-cli db:seed:all",
+    "create": "npx sequelize db:migrate",
+    "delete": "npx sequelize db:migrate:undo:all",
+    "reset": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all",
+    "ex": "npx nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "pg": "^8.14.1",
     "sequelize": "^6.37.7"
   },
