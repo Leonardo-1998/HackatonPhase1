@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "CCTV"
+  },
+  {
+    "id": 2,
+    "name": "PARKIR MOBIL"
+  },
+  {
+    "id": 3,
+    "name": "BED"
+  },
+  {
+    "id": 4,
+    "name": "KLOSET DUDUK"
+  },
+  {
+    "id": 5,
+    "name": "FREE WIFI"
+  },
+  {
+    "id": 6,
+    "name": "KULKAS"
+  },
+  {
+    "id": 7,
+    "name": "AC"
+  },
+  {
+    "id": 8,
+    "name": "PARKIR MOTOR"
+  },
+  {
+    "id": 9,
+    "name": "SHOWER"
+  },
+  {
+    "id": 10,
+    "name": "WATER HEATER"
+  }
+]
