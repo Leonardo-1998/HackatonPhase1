@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "HotelId": 1,
+    "room_number": "101",
+    "type": "Single",
+    "price": 100
+  },
+  {
+    "id": 2,
+    "HotelId": 1,
+    "room_number": "102",
+    "type": "Double",
+    "price": 150
+  },
+  {
+    "id": 3,
+    "HotelId": 2,
+    "room_number": "201",
+    "type": "Suite",
+    "price": 250
+  },
+  {
+    "id": 4,
+    "HotelId": 2,
+    "room_number": "202",
+    "type": "Family",
+    "price": 300
+  },
+  {
+    "id": 5,
+    "HotelId": 3,
+    "room_number": "301",
+    "type": "Deluxe",
+    "price": 180
+  },
+  {
+    "id": 6,
+    "HotelId": 3,
+    "room_number": "302",
+    "type": "Standard",
+    "price": 120
+  }
+]
