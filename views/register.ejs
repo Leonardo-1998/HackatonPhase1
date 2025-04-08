@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <%- include('./partial/topview.ejs') %>
-    
-    <form action="/register" method="post">
 
-        <label for="username">Username</label>
-        <br>
-        <input type="text" name="username" id="username">
-        <br><br>
+        <form action="/register" method="post">
 
-        <label for="password">Password</label>
-        <br>
-        <input type="text" name="password" id="password">
-        <br><br>
+            <!-- Username -->
+            <label for="username">Username</label>
+            <br>
+            <input type="text" name="username" id="username" placeholder="Ex : Haha">
+            <br><br>
 
-        <label for="role">Role</label>
-        <br>
-        <select name="" id="">
-            <option value="" selected>--- Select Role ---</option>
-            <option value="Admin">Admin</option>
-            <option value="User">User</option>
-        </select>
+            <!-- Password -->
+            <label for="password">Password</label>
+            <br>
+            <input type="text" name="password" id="password" placeholder="Ex : 123456">
+            <br><br>
 
-        <button type="submit">Register</button>
-    </form>
+            <!-- Role -->
+            <!-- ========== - Select - ========== -->
+            <label for="role">Role</label>
+            <br>
+            <select name="role" id="">
+                <option value="" selected>--- Select Role ---</option>
+                <option value="Admin">Admin</option>
+                <option value="User">User</option>
+            </select>
+
+            <!-- ========== - ========== - ========== -->
+
+            <!-- ========== - Radio - ========== -->
+            <p>Role</p>
+            <input type="button" name="role" value="User" id="role_1">
+            <label for="role_1">User</label>
+
+            <input type="button" name="role" value="Admin" id="role_2">
+            <label for="role_2">Admin</label>
+
+            <!-- ========== - ========== - ========== -->
+
+            <button type="submit">Register</button>
+        </form>
 </body>
+
 </html>

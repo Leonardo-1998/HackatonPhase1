@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "npx sequelize-cli db:seed:all",
-    "create" : "npx sequelize db:migrate",
-    "delete" : "npx sequelize db:migrate:undo:all",
+    "create": "npx sequelize db:migrate",
+    "delete": "npx sequelize db:migrate:undo:all",
     "reset": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all",
     "ex": "npx nodemon app.js"
   },
