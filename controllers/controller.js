@@ -7,6 +7,8 @@ const {
     Roomanmenity,
     User
 } = require('../models');
+const bcrypt = require('bcryptjs');
+const user = require('../models/user');
 
 class Controller {
     // Register Form
@@ -20,6 +22,8 @@ class Controller {
             if(errors){
                 errors = errors.split(",")
             }
+
+            console.log(errors)
 
             // ==========
 
@@ -43,27 +47,27 @@ class Controller {
                 role:role
             })
             
-            res.send("123")
-            // res.redirect("/login")
+            // res.send("123")
+            res.redirect("/login")
         } catch (error) {
-            console.log(error)
-            res.send(error)
+            // console.log(error)
+            // res.send(error)
 
             // Masukkan validation disini
             
             // ============
-            // if (error.name === "SequelizeValidationError") {
-            //     error = error.errors.map(el => {
-            //         return el.message
-            //     })
-            //     // console.log(error)
+            if (error.name === "SequelizeValidationError") {
+                error = error.errors.map(el => {
+                    return el.message
+                })
+                // console.log(error)
 
-            //     // res.send(error)
-            //     res.redirect(`/register?errors=${error}`)
-            // } else {
-            //     console.log(error)
-            //     res.send(error)
-            // }
+                // res.send(error)
+                res.redirect(`/register?errors=${error}`)
+            } else {
+                console.log(error)
+                res.send(error)
+            }
             // ============
         }
     }
@@ -92,16 +96,21 @@ class Controller {
     // Login Check
     static async checkLogin(req, res) {
         try {
-            // Mengambil data dari form
-            // let {username, password} = req.body
+            let {username, password} = req.body
 
-            // let A = await Model.findAll({
-            //     where : {
+            let user = await User.findone({
+                where:{
+                    username : username
+                }
+            })
 
-            //     }
-            // })
+            if(user){
+                const isValidPassword = bcrypt.compareSync(password,user.password)
 
-            res.render("login")
+                res.redirect
+            }
+            
+            // res.render("login")
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -129,11 +138,7 @@ class Controller {
     static async allThread(req, res) {
         try {
 
-            // let X = await Model.findAll({
-            //     include: {
-            //         model: A
-            //     }
-            // })
+            
             
         } catch (error) {
             console.log(error)
