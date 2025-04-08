@@ -38,13 +38,13 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password, role } = req.body
+            const { username, password, email } = req.body
             
             // Membuat data baru Table Users
             await User.create({
                 username:username,
                 password:password,
-                role:role
+                email:email
             })
             
             // res.send("123")
@@ -56,6 +56,7 @@ class Controller {
             // Masukkan validation disini
             
             // ============
+            console.log(req.body)
             if (error.name === "SequelizeValidationError") {
                 error = error.errors.map(el => {
                     return el.message
@@ -78,15 +79,14 @@ class Controller {
             // Cek error 
 
             // ==========
-            // let {errors} = req.query
+            let {errors} = req.query
 
-            // if(errors){
-            //     errors = errors.split(",")
-            // }
-
+            if(errors){
+                errors = errors.split(",")
+            }
             // ==========
 
-            res.render("login")
+            res.render("login",{errors})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -98,39 +98,32 @@ class Controller {
         try {
             let {username, password} = req.body
 
-            let user = await User.findone({
+            let user = await User.findOne({
                 where:{
                     username : username
                 }
             })
-
+            
             if(user){
                 const isValidPassword = bcrypt.compareSync(password,user.password)
-
-                res.redirect
+                if(isValidPassword){
+                    const error = "test"
+                    res.redirect(`/home`)
+                } else {
+                    const error = "Invalid username/password"
+                    res.redirect(`/login?errors=${error}`)
+                }
+            } else {
+                const error = "Invalid username/password"
+                res.redirect(`/login?errors=${error}`)
             }
-            
             // res.render("login")
         } catch (error) {
+            // console.log(1)
             console.log(error)
-            res.send(error)
-
-            // Mengecek Error dari Validasi
-
-            // ============
-            // if (error.name === "SequelizeValidationError") {
-            //     error = error.errors.map(el => {
-            //         return el.message
-            //     })
-            //     console.log(error)
-
-            //     // res.send(error)
-            //     res.redirect(`/login?errors=${error}`)
-            // } else {
-            //     console.log(error)
-            //     res.send(error)
-            // }
-            // ============   
+            const errors = "Invalid username/password"
+            res.redirect(`login?errors=${errors}`)
+            // res.send(error)
         }
     }
 

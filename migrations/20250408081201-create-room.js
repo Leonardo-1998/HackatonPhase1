@@ -10,7 +10,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       HotelId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Hotels',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       room_number: {
         type: Sequelize.STRING
