@@ -2,23 +2,17 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Posts', {
+    await queryInterface.createTable('RoomAmenities', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      post_name: {
-        type: Sequelize.STRING
+      RoomId: {
+        type: Sequelize.INTEGER
       },
-      content: {
-        type: Sequelize.TEXT
-      },
-      media: {
-        type: Sequelize.STRING
-      },
-      original_poster_id: {
+      AmenityId: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -32,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Posts');
+    await queryInterface.dropTable('RoomAmenities');
   }
 };

@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "Tidder_DB",
+    "database": "Hotel_DB",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
