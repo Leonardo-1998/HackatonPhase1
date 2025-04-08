@@ -1,15 +1,14 @@
 Model
-npx sequelize-cli model:generate --name Profile --attributes UserId:integer,name:string,phone_number:integer
 
 
 npx sequelize-cli model:generate --name User --attributes email:string
+npx sequelize-cli model:generate --name Profile --attributes UserId:integer,name:string,phone_number:integer
 npx sequelize-cli model:generate --name Hotel --attributes name:string,address:string
-npx sequelize-cli model:generate --name Reservation --attributes UserId:integer;RoomId:integer;check_in:date,check_out:date
-npx sequelize-cli model:generate --name Room  --attributes HotelId:integer,room_number:string,type:string,price:integer
 npx sequelize-cli model:generate --name Amenity --attributes name:string
+npx sequelize-cli model:generate --name Room  --attributes HotelId:integer,room_number:string,type:string,price:integer
+npx sequelize-cli model:generate --name Reservation --attributes UserId:integer;RoomId:integer;check_in:date,check_out:date
 npx sequelize-cli model:generate --name RoomAmenity --attributes RoomId:integer,AmenityId:integer
 
-npx sequelize-cli model:generate --name Post --attributes UserId:integer
 
 
 Seed
