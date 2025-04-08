@@ -9,7 +9,9 @@ npx sequelize-cli model:generate --name Room  --attributes HotelId:integer,room_
 npx sequelize-cli model:generate --name Reservation --attributes UserId:integer;RoomId:integer;check_in:date,check_out:date
 npx sequelize-cli model:generate --name RoomAmenity --attributes RoomId:integer,AmenityId:integer
 
-
+Skeleton
+npx sequelize-cli migration:generate --name add-column-<name_column>-to-<name_table>
+npx sequelize-cli migration:generate --name add-column-check_in-check_out-RoomId-to-Reservations
 
 Seed
 npx sequelize-cli seed:generate --name seed-Amenity
@@ -17,4 +19,5 @@ npx sequelize-cli seed:generate --name seed-Users
 npx sequelize-cli seed:generate --name seed-Profiles
 npx sequelize-cli seed:generate --name seed-Hotels
 npx sequelize-cli seed:generate --name seed-Rooms
+npx sequelize-cli seed:generate --name seed-Reservations
 
