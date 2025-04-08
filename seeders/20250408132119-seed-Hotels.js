@@ -1,10 +1,9 @@
 'use strict';
-
 const fs = require('fs').promises;
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up (queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -14,9 +13,10 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    let amenities = JSON.parse(await fs.readFile("./data/amenities.json", "utf-8"))
-
-    amenities = amenities.map(el=>{
+   
+    let hotels = JSON.parse(await fs.readFile("./data/hotels.json", "utf-8"))
+    
+    hotels = hotels.map(el=>{
       delete el.id
 
       return {
@@ -26,16 +26,16 @@ module.exports = {
       }
     })
 
-    await queryInterface.bulkInsert('Amenities',amenities, {});
+    await queryInterface.bulkInsert('Hotels',hotels, {});
   },
 
-  async down(queryInterface, Sequelize) {
+  async down (queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Amenities", null, {})
+    await queryInterface.bulkDelete("Hotels", null, {})
   }
 };
