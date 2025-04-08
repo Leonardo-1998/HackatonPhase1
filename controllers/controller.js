@@ -108,7 +108,7 @@ class Controller {
                 const isValidPassword = bcrypt.compareSync(password,user.password)
                 if(isValidPassword){
                     const error = "test"
-                    res.redirect(`/login?errors=${error}`)
+                    res.redirect(`/home`)
                 } else {
                     const error = "Invalid username/password"
                     res.redirect(`/login?errors=${error}`)
