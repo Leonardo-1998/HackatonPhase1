@@ -1,0 +1,27 @@
+table Users{
+  id serial pk
+  username varchar
+  email varchar
+  hash_password varchar
+  profile_picture varchar
+  role varchar
+  createdAt date
+}
+
+table Posts{
+  id serial pk
+  post_name varchar
+  original_poster_id integer [ref: > Users.id]
+  createdAt date
+  content varchar
+  media varchar
+}
+
+table Comments{
+  id serial pk
+  post_id integer [ref: > Posts.id]
+  user_id integer [ref:> Users.id]
+  createdAt date
+  content varchar
+  media varchar
+}
