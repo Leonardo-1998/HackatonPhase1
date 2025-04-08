@@ -8,7 +8,8 @@
 </head>
 
 <body>
-    <%- include('./partial/topview.ejs') %>
+
+    <br>
 
         <form action="/register" method="post">
 
@@ -37,15 +38,16 @@
             <!-- ========== - ========== - ========== -->
 
             <!-- ========== - Radio - ========== -->
-            <p>Role</p>
-            <input type="button" name="role" value="User" id="role_1">
+            <!-- <p>Role</p>
+            <input type="radio" name="role" value="User" id="role_1">
             <label for="role_1">User</label>
 
-            <input type="button" name="role" value="Admin" id="role_2">
-            <label for="role_2">Admin</label>
+            <input type="radio" name="role" value="Admin" id="role_2">
+            <label for="role_2">Admin</label> -->
 
             <!-- ========== - ========== - ========== -->
 
+            <br>
             <button type="submit">Register</button>
         </form>
 </body>

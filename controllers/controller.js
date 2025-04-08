@@ -1,3 +1,13 @@
+const {
+    Amenity,
+    Hotel,
+    Profile,
+    Reservation,
+    Room,
+    Roomanmenity,
+    User
+} = require('../models');
+
 class Controller {
     // Register Form
     static async formRegister(req, res) {
@@ -5,15 +15,15 @@ class Controller {
             // Tampilkan error apa saja yang muncul
 
             // ==========
-            // let {errors} = req.query
+            let {errors} = req.query
 
-            // if(errors){
-            //     errors = errors.split(",")
-            // }
+            if(errors){
+                errors = errors.split(",")
+            }
 
             // ==========
 
-            res.render("register")
+            res.render("register", {errors})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -23,13 +33,18 @@ class Controller {
     // Ketika menekan tombol register
     static async saveRegister(req, res) {
         try {
-            // Perlu di tambahkan
-
+            res.send("123")
+            // Menerima Input
             const { username, password, role } = req.body
 
-            // let createUser = await Model.create({username:username, password:password, role:role})
+            // Membuat data baru Table Users
+            await User.create({
+                username:username,
+                password:password,
+                role:role
+            })
 
-            res.redirect("/login")
+            // res.redirect("/login")
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -41,7 +56,7 @@ class Controller {
             //     error = error.errors.map(el => {
             //         return el.message
             //     })
-            //     console.log(error)
+            //     // console.log(error)
 
             //     // res.send(error)
             //     res.redirect(`/register?errors=${error}`)
