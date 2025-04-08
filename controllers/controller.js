@@ -33,17 +33,17 @@ class Controller {
     // Ketika menekan tombol register
     static async saveRegister(req, res) {
         try {
-            res.send("123")
             // Menerima Input
             const { username, password, role } = req.body
-
+            
             // Membuat data baru Table Users
             await User.create({
                 username:username,
                 password:password,
                 role:role
             })
-
+            
+            res.send("123")
             // res.redirect("/login")
         } catch (error) {
             console.log(error)
