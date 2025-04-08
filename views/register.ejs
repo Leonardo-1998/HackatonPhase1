@@ -11,45 +11,61 @@
 
     <br>
 
-        <form action="/register" method="post">
+    <% if (errors) { %>
+        <hr>
+        <% errors.forEach(el=> { %>
+            <p style="color: red;">
+                <%= el %>
+            </p>
+        <% }) %>
+        <hr>
+    <% } %>
 
-            <!-- Username -->
-            <label for="username">Username</label>
-            <br>
-            <input type="text" name="username" id="username" placeholder="Ex : Haha">
-            <br><br>
 
-            <!-- Password -->
-            <label for="password">Password</label>
-            <br>
-            <input type="text" name="password" id="password" placeholder="Ex : 123456">
-            <br><br>
+    <form action="/register" method="post">
 
-            <!-- Role -->
-            <!-- ========== - Select - ========== -->
-            <label for="role">Role</label>
-            <br>
-            <select name="role" id="">
-                <option value="" selected>--- Select Role ---</option>
-                <option value="Admin">Admin</option>
-                <option value="User">User</option>
-            </select>
+        <!-- Username -->
+        <label for="username">Username</label>
+        <br>
+        <input type="text" name="username" id="username" placeholder="Ex : Haha">
+        <br><br>
 
-            <!-- ========== - ========== - ========== -->
+        <!-- Username -->
+        <label for="email">Email</label>
+        <br>
+        <input type="text" name="email" id="email" placeholder="Ex : aaa@mail.com">
+        <br><br>
 
-            <!-- ========== - Radio - ========== -->
-            <!-- <p>Role</p>
-            <input type="radio" name="role" value="User" id="role_1">
-            <label for="role_1">User</label>
+        <!-- Password -->
+        <label for="password">Password</label>
+        <br>
+        <input type="text" name="password" id="password" placeholder="Ex : 123456">
+        <br><br>
 
-            <input type="radio" name="role" value="Admin" id="role_2">
-            <label for="role_2">Admin</label> -->
+        <!-- Role -->
+        <!-- ========== - Select - ========== -->
+        <!-- <label for="role">Role</label>
+        <br>
+        <select name="role" id="">
+            <option value="" selected>--- Select Role ---</option>
+            <option value="Admin">Admin</option>
+            <option value="User">User</option>
+        </select> -->
 
-            <!-- ========== - ========== - ========== -->
+        <!-- ========== - ========== - ========== -->
 
-            <br>
-            <button type="submit">Register</button>
-        </form>
+        <!-- ========== - Radio - ========== -->
+        <!-- <p>Role</p>
+        <input type="radio" name="role" value="User" id="role_1">
+        <label for="role_1">User</label>
+
+        <input type="radio" name="role" value="Admin" id="role_2">
+        <label for="role_2">Admin</label> -->
+        <!-- ========== - ========== - ========== -->
+
+        <!-- <br> -->
+        <button type="submit">Register</button>
+    </form>
 </body>
 
 </html>

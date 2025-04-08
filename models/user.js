@@ -13,22 +13,66 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Reservation, {foreignKey : 'UserId'})
-      User.hasMany(models.Profile, {foreignKey:'UserId'})
+      User.hasMany(models.Reservation, { foreignKey: 'UserId' })
+      User.hasMany(models.Profile, { foreignKey: 'UserId' })
     }
   }
   User.init({
-    email: DataTypes.STRING
+    email: {
+      type: DataTypes.STRING,
+      // allowNull: false,
+      unique: true,
+      // validate: {
+      //   notNull: {
+      //     msg: "Email cannot be empty 1"
+      //   },
+      //   notEmpty: {
+      //     msg: "Email cannot be empty 2"
+      //   },
+      //   isEmail: {
+      //     msg: "Must insert an email address"
+      //   }
+      // }
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notNull: {
+          msg: "Username cannot be empty"
+        },
+        notEmpty: {
+          msg: "Username cannot be empty"
+        },
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Password cannot be empty"
+        },
+        notEmpty: {
+          msg: "Password cannot be empty"
+        },
+        min:{
+          args:8,
+          msg: "Password minimum length is 8"
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'User',
   });
-  
-  // User.beforeCreate((user,option)=>{
-  //   const salt = bcrypt.genSaltSync(10);
-  //   const hash = bcrypt.hashSync(user.password, salt);
 
-  //   user.password = hash
-  // })
+  User.beforeCreate((user, option) => {
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(user.password, salt);
+
+    user.password = hash
+  })
   return User;
 };
