@@ -2,7 +2,8 @@ const express = require('express')
 const Controller = require('../controllers/controller')
 const router = express.Router()
 
-router.get('/home', Controller.X)
+//Home
+router.get('/', Controller.home)
 
 // Register
 router.get('/register', Controller.formRegister)

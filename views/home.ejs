@@ -1,1 +1,25 @@
-this is home also test for file changes
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kossy Hotel</title>
+  </head>
+  <body>
+    <h1>Home</h1>
+    <table border="2">
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Region</th>
+      </tr>
+      <% hotel.forEach(el => { %>
+      <tr>
+        <td><%= el.name %></td>
+        <td><%= el.address %></td>
+        <td><%= el.region %></td>
+      </tr>
+      <% }) %>
+    </table>
+  </body>
+</html>
