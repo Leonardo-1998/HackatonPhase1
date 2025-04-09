@@ -4,6 +4,9 @@ const router = express.Router()
 
 router.get('/home', Controller.X)
 
+// Landing Page
+router.get('/thread', Controller.X)
+
 // Register
 router.get('/register', Controller.formRegister)
 router.post('/register', Controller.saveRegister)
@@ -12,8 +15,9 @@ router.post('/register', Controller.saveRegister)
 router.get('/login', Controller.formLogin)
 router.post('/login', Controller.checkLogin)
 
-// Landing Page
-router.get('/thread', Controller.X)
+// User
+router.get('/user/:UserId/profiles', Controller.profile)
+router.get('/user', Controller.X)
 
 
 module.exports = router

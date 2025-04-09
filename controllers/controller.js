@@ -9,6 +9,7 @@ const {
 } = require('../models');
 const bcrypt = require('bcryptjs');
 const user = require('../models/user');
+const { where } = require('sequelize');
 
 class Controller {
     // Register Form
@@ -17,9 +18,9 @@ class Controller {
             // Tampilkan error apa saja yang muncul
 
             // ==========
-            let {errors} = req.query
+            let { errors } = req.query
 
-            if(errors){
+            if (errors) {
                 errors = errors.split(",")
             }
 
@@ -27,7 +28,7 @@ class Controller {
 
             // ==========
 
-            res.render("register", {errors})
+            res.render("register", { errors })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -39,14 +40,14 @@ class Controller {
         try {
             // Menerima Input
             const { username, password, email } = req.body
-            
+
             // Membuat data baru Table Users
             await User.create({
-                username:username,
-                password:password,
-                email:email
+                username: username,
+                password: password,
+                email: email
             })
-            
+
             // res.send("123")
             res.redirect("/login")
         } catch (error) {
@@ -54,7 +55,7 @@ class Controller {
             // res.send(error)
 
             // Masukkan validation disini
-            
+
             // ============
             console.log(req.body)
             if (error.name === "SequelizeValidationError") {
@@ -79,14 +80,14 @@ class Controller {
             // Cek error 
 
             // ==========
-            let {errors} = req.query
+            let { errors } = req.query
 
-            if(errors){
+            if (errors) {
                 errors = errors.split(",")
             }
             // ==========
 
-            res.render("login",{errors})
+            res.render("login", { errors })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -96,17 +97,17 @@ class Controller {
     // Login Check
     static async checkLogin(req, res) {
         try {
-            let {username, password} = req.body
+            let { username, password } = req.body
 
             let user = await User.findOne({
-                where:{
-                    username : username
+                where: {
+                    username: username
                 }
             })
-            
-            if(user){
-                const isValidPassword = bcrypt.compareSync(password,user.password)
-                if(isValidPassword){
+
+            if (user) {
+                const isValidPassword = bcrypt.compareSync(password, user.password)
+                if (isValidPassword) {
                     const error = "test"
                     res.redirect(`/home`)
                 } else {
@@ -127,12 +128,35 @@ class Controller {
         }
     }
 
-    // Basic Page
+    // Profile
     static async allThread(req, res) {
         try {
 
-            
-            
+
+
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+
+    // Basic Page
+    static async profile(req, res) {
+        try {
+            let {UserId} = req.params
+
+            let profile = await User.findAll({
+                include:[{
+                    model: Profile
+                },{
+                    model: Reservation
+                }],
+                where:{
+                    id : +UserId
+                }
+            })
+
+            res.render("profile", {})
         } catch (error) {
             console.log(error)
             res.send(error)
