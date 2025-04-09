@@ -7,6 +7,15 @@
 </head>
 <body>
 
+
+    <% if (errors) { %>
+     <hr>
+     <% errors.forEach(el => { %>
+      <p style="color: red;"><%= el %></p>
+     <% }) %>
+     <hr>
+    <% } %>
+    <br>
     <form action="/login" method="post">
 
         <!-- Username -->

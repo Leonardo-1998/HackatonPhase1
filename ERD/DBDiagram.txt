@@ -3,13 +3,14 @@ Table Users {
   username varchar
   email varchar
   password varchar
+  role varchar
 }
 
 Table Profiles{
   id serial [pk]
   UserId integer [ref: - Users.id]
   name varchar
-  phone_number integer
+  phone_number varchar
   profile_pic varchar
 }
 
@@ -17,6 +18,7 @@ Table Hotels {
   id serial [pk]
   name varchar
   address varchar
+  region varchar
 }
 
 Table Rooms {
