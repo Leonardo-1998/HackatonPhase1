@@ -49,12 +49,14 @@ class Controller {
             const { username, password, email} = req.body
             
             // Membuat data baru Table Users
-            await User.create({
+            let user = await User.create({
                 username:username,
                 email:email,
                 password:password,
                 role : 'user'
-            })
+            },
+            {returning: true}
+        )
             
             // res.send(user)
             res.redirect(`/login?username=${user.username}&&email=${user.email}`)
@@ -151,6 +153,8 @@ class Controller {
     static async profile(req, res) {
         try {
             let {UserId} = req.params
+
+            console.log(req.session)
 
             let userData = await User.findAll({
                 include:[{
