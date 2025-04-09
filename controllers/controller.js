@@ -13,8 +13,14 @@ class Controller {
     //Home
     static async home(req,res){
         try {
+            let {userId,userRole} = req.session
+
+            console.log(userId, userRole)
+
+            let nameOfUser = await User.userName(userId)
+
             let hotel = await Hotel.findAll()
-            res.render('home',{hotel})
+            res.render('home',{hotel, nameOfUser, userRole, userId})
         } catch (error) {
             console.log(error)
         }
@@ -23,6 +29,8 @@ class Controller {
     static async formRegister(req, res) {
         try {
             // Tampilkan error apa saja yang muncul
+            let nameOfUser
+            let userId
 
             // ==========
             let { errors } = req.query
@@ -35,7 +43,7 @@ class Controller {
 
             // ==========
 
-            res.render("register", { errors })
+            res.render("register", { errors ,nameOfUser, userId})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -46,14 +54,16 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password, email} = req.body
+            const {username, password, email} = req.body
             
             // Membuat data baru Table Users
-            await User.create({
+            let user = await User.create({
                 username:username,
                 email:email,
                 password:password,
                 role : 'user'
+            },{
+                returning: true
             })
             
             // res.send(user)
@@ -87,6 +97,9 @@ class Controller {
     static async formLogin(req, res) {
         try {
             // console.log(req.query)
+            let nameOfUser
+            let userId
+
             let {username, email} = req.query
             // Cek error 
 
@@ -98,7 +111,7 @@ class Controller {
             }
             // ==========
 
-            res.render("login", { errors ,username, email})
+            res.render("login", { errors ,username, email, nameOfUser, userId})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -150,7 +163,11 @@ class Controller {
     // Profile
     static async profile(req, res) {
         try {
+            let nameOfUser
+            let userId
             let {UserId} = req.params
+
+            console.log(req.session)
 
             let userData = await User.findAll({
                 include:[{
@@ -170,12 +187,12 @@ class Controller {
             let profileData = userData.dataValues.Profile
             let reservationData = userData.dataValues.Reservations
 
-            console.log(userData.dataValues)
-            console.log(profileData.dataValues)
-            console.log(reservationData[0].dataValues)
+            // console.log(userData.dataValues)
+            // console.log(profileData.dataValues)
+            // console.log(reservationData[0].dataValues)
 
             // res.send(userData)
-            res.render("./user/profile", {userData,profileData,reservationData})
+            res.render("./user/profile", {userData,profileData,reservationData, userId, nameOfUser})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -202,16 +219,6 @@ class Controller {
     static async reservation(req, res) {
         try {
             res.render("test")
-        } catch (error) {
-            console.log(error)
-            res.send(error)
-        }
-    }
-
-    // Basic Schema
-    static async home(req, res) {
-        try {
-            res.send("123")
         } catch (error) {
             console.log(error)
             res.send(error)

@@ -20,6 +20,16 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Reservation, { foreignKey: 'UserId' })
       User.hasOne(models.Profile, { foreignKey: 'UserId' })
     }
+
+    static async userName (id){
+      let user = await User.findAll({
+        where:{
+          id : id
+        }
+      })
+      console.log(user)
+      return user[0].dataValues.username
+    }
   }
   User.init({
     email: {
