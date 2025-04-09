@@ -24,7 +24,7 @@ class Controller {
                 errors = errors.split(",")
             }
 
-            console.log(errors)
+            // console.log(errors)
 
             // ==========
 
@@ -108,8 +108,19 @@ class Controller {
             if (user) {
                 const isValidPassword = bcrypt.compareSync(password, user.password)
                 if (isValidPassword) {
-                    const error = "test"
-                    res.redirect(`/home`)
+                    // Case Berhasil Login
+
+                    // Pemanggillan session => req.session
+                    // req.session.userId = user.id // Set session di controller
+                    
+                    // Hal sensitif tidak boleh ditaruh dalam session
+                    // Password tidak boleh ditaruh dalam session
+                    req.session.userId = user.id
+                    req.session.userRole = user.role
+
+                    // ====================
+                    res.redirect(`/home`) // <------------
+                    // ====================
                 } else {
                     const error = "Invalid username/password"
                     res.redirect(`/login?errors=${error}`)
@@ -118,29 +129,14 @@ class Controller {
                 const error = "Invalid username/password"
                 res.redirect(`/login?errors=${error}`)
             }
-            // res.render("login")
         } catch (error) {
-            // console.log(1)
             console.log(error)
             const errors = "Invalid username/password"
             res.redirect(`login?errors=${errors}`)
-            // res.send(error)
         }
     }
 
     // Profile
-    static async allThread(req, res) {
-        try {
-
-
-
-        } catch (error) {
-            console.log(error)
-            res.send(error)
-        }
-    }
-
-    // Basic Page
     static async profile(req, res) {
         try {
             let {UserId} = req.params
@@ -157,6 +153,42 @@ class Controller {
             })
 
             res.render("profile", {})
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+
+    // Logout
+    static async logout(req, res) {
+        try {
+            req.session.destroy(function(error){
+                if(error){
+                    console.log(error)
+                } else {
+                    res.redirect("/login")
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+
+    // Test
+    static async test(req, res) {
+        try {
+            res.render("test")
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+
+    // Basic Schema
+    static async home(req, res) {
+        try {
+            res.send("123")
         } catch (error) {
             console.log(error)
             res.send(error)
