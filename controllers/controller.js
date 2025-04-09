@@ -14,14 +14,13 @@ class Controller {
     static async home(req,res){
         try {
             let {userId,userRole} = req.session
-            // console.log(req.session)
+
             console.log(userId, userRole)
 
             let nameOfUser = await User.userName(userId)
-            console.log(nameOfUser)
 
             let hotel = await Hotel.findAll()
-            res.render('home',{hotel, nameOfUser, userRole})
+            res.render('home',{hotel, nameOfUser, userRole, userId})
         } catch (error) {
             console.log(error)
         }
@@ -31,6 +30,7 @@ class Controller {
         try {
             // Tampilkan error apa saja yang muncul
             let nameOfUser
+            let userId
 
             // ==========
             let { errors } = req.query
@@ -43,7 +43,7 @@ class Controller {
 
             // ==========
 
-            res.render("register", { errors ,nameOfUser})
+            res.render("register", { errors ,nameOfUser, userId})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -54,7 +54,7 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password, email} = req.body
+            const {username, password, email} = req.body
             
             // Membuat data baru Table Users
             let user = await User.create({
@@ -62,9 +62,9 @@ class Controller {
                 email:email,
                 password:password,
                 role : 'user'
-            },
-            {returning: true}
-        )
+            },{
+                returning: true
+            })
             
             // res.send(user)
             res.redirect(`/login?username=${user.username}&&email=${user.email}`)
@@ -98,6 +98,8 @@ class Controller {
         try {
             // console.log(req.query)
             let nameOfUser
+            let userId
+
             let {username, email} = req.query
             // Cek error 
 
@@ -109,7 +111,7 @@ class Controller {
             }
             // ==========
 
-            res.render("login", { errors ,username, email, nameOfUser})
+            res.render("login", { errors ,username, email, nameOfUser, userId})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -161,6 +163,8 @@ class Controller {
     // Profile
     static async profile(req, res) {
         try {
+            let nameOfUser
+            let userId
             let {UserId} = req.params
 
             console.log(req.session)
@@ -183,12 +187,12 @@ class Controller {
             let profileData = userData.dataValues.Profile
             let reservationData = userData.dataValues.Reservations
 
-            console.log(userData.dataValues)
-            console.log(profileData.dataValues)
-            console.log(reservationData[0].dataValues)
+            // console.log(userData.dataValues)
+            // console.log(profileData.dataValues)
+            // console.log(reservationData[0].dataValues)
 
             // res.send(userData)
-            res.render("./user/profile", {userData,profileData,reservationData})
+            res.render("./user/profile", {userData,profileData,reservationData, userId, nameOfUser})
         } catch (error) {
             console.log(error)
             res.send(error)
