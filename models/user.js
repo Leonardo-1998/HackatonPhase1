@@ -11,17 +11,23 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    async checkPassword(plainPassword){
+      return await bcrypt.compare(plainPassword, this.password)
+    }
+
     static associate(models) {
       // define association here
       User.hasMany(models.Reservation, { foreignKey: 'UserId' })
-      User.hasMany(models.Profile, { foreignKey: 'UserId' })
+      User.hasOne(models.Profile, { foreignKey: 'UserId' })
     }
   }
   User.init({
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        msg: "Email has been taken"
+      },
       validate: {
         notNull: {
           msg: "Email cannot be empty"
@@ -37,7 +43,9 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        msg:"Username has been taken"
+      },
       validate: {
         notNull: {
           msg: "Username cannot be empty"

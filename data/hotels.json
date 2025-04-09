@@ -2,16 +2,19 @@
   {
     "id": 1,
     "name": "Alice Johnson",
-    "address": "123 Main Street, Anytown, CA 12345"
+    "address": "123 Main Street, Anytown, CA 12345",
+    "region" : "Jakarta"
   },
   {
     "id": 2,
     "name": "Bob Smith",
-    "address": "456 Oak Avenue, Springfield, IL 62701"
+    "address": "456 Oak Avenue, Springfield, IL 62701",
+    "region" : "Jakarta"
   },
   {
     "id": 3,
     "name": "Charlie Brown",
-    "address": "789 Pine Lane, Sunnyville, TX 78701"
+    "address": "789 Pine Lane, Sunnyville, TX 78701",
+    "region" : "Bali"
   }
 ]

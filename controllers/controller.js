@@ -8,10 +8,17 @@ const {
     User
 } = require('../models');
 const bcrypt = require('bcryptjs');
-const user = require('../models/user');
-const { where } = require('sequelize');
 
 class Controller {
+    //Home
+    static async home(req,res){
+        try {
+            let hotel = await Hotel.findAll()
+            res.render('home',{hotel})
+        } catch (error) {
+            console.log(error)
+        }
+    }
     // Register Form
     static async formRegister(req, res) {
         try {
@@ -39,19 +46,19 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password, email } = req.body
-
+            const { username, password, email} = req.body
+            
             // Membuat data baru Table Users
-            let user = await User.create({
-                username: username,
-                password: password,
-                email: email
-            }, {
-                returning: true
+            await User.create({
+                username:username,
+                email:email,
+                password:password,
+                role : 'user'
             })
-
+            
             // res.send(user)
             res.redirect(`/login?username=${user.username}&&email=${user.email}`)
+
         } catch (error) {
             // console.log(error)
             // res.send(error)
@@ -60,7 +67,7 @@ class Controller {
 
             // ============
             console.log(req.body)
-            if (error.name === "SequelizeValidationError") {
+            if (error.name === "SequelizeValidationError" || "SequelizeUniqueConstraintError") {
                 error = error.errors.map(el => {
                     return el.message
                 })

@@ -3,6 +3,9 @@ const Controller = require('../controllers/controller')
 const { isLoggedIn, isAdmin } = require('../helper/middleware')
 const router = express.Router()
 
+//Home
+router.get('/', Controller.home)
+
 // Register
 router.get('/register', Controller.formRegister)
 router.post('/register', Controller.saveRegister)

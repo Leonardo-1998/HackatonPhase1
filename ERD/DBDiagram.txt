@@ -18,6 +18,7 @@ Table Hotels {
   id serial [pk]
   name varchar
   address varchar
+  region varchar
 }
 
 Table Rooms {
