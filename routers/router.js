@@ -19,7 +19,13 @@ router.get('/logout', Controller.logout)
 
 // User
 router.get('/user/:UserId/profile',Controller.profile)
-router.get('/user/:UserId/reservation',Controller.reservation)
+
+// User/Edit
+router.get('/user/:UserId/profile/edit',Controller.editProfile)
+router.post('/user/:UserId/profile/edit',Controller.saveProfile)
+
+router.get('/user/:UserId/roomdetail/:RoomId',Controller.roomDetail)
+router.get('/user/:UserId/roomdetail/:RoomId/reservation',Controller.reservation)
 router.get('/user', Controller.X)
 
 
