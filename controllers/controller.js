@@ -38,16 +38,18 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password, role } = req.body
+            const { username,email, password, role } = req.body
             
             // Membuat data baru Table Users
             await User.create({
                 username:username,
+                email:email,
                 password:password,
                 role:role
             })
             
             // res.send("123")
+            console.log(req.body + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
             res.redirect("/login")
         } catch (error) {
             // console.log(error)
@@ -98,22 +100,26 @@ class Controller {
         try {
             let {username, password} = req.body
 
-            let user = await User.findone({
-                where:{
-                    username : username
-                }
+            let user = await User.findOne({
+                where:{username}
             })
 
-            if(user){
-                const isValidPassword = bcrypt.compareSync(password,user.password)
+            if(!user){
 
-                res.redirect
+                res.send("No users here with that detail: " + username)
             }
             
+            let valid = await user.checkPassword(password)
+
+            if (valid){
+                res.send("Success Login Detail")
+            }else{
+                res.send("Wrong Login Detail")
+            }
             // res.render("login")
         } catch (error) {
             console.log(error)
-            res.send(error)
+            res.send(error + " something went wrong brother "+user) 
 
             // Mengecek Error dari Validasi
 
