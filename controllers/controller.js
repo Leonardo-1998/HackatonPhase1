@@ -38,14 +38,14 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password, email} = req.body
+            const { username, password} = req.body
             
             // Membuat data baru Table Users
             await User.create({
                 username:username,
                 email:email,
                 password:password,
-                email:email
+                role : 'user'
             })
             
             // res.send("123")

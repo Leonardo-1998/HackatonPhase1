@@ -8,11 +8,13 @@
   {
     "id": 2,
     "name": "Bob Smith",
-    "address": "456 Oak Avenue, Springfield, IL 62701"
+    "address": "456 Oak Avenue, Springfield, IL 62701",
+    "region" : "Jakarta"
   },
   {
     "id": 3,
     "name": "Charlie Brown",
-    "address": "789 Pine Lane, Sunnyville, TX 78701"
+    "address": "789 Pine Lane, Sunnyville, TX 78701",
+    "region" : "Bali"
   }
 ]
