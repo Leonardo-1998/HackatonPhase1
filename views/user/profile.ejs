@@ -4,8 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <%- include('../partial/bootstrap') %>
 </head>
 <body>
-    <%=  %>
+    <div class="kotak">
+ 
+		<div class="judul">
+			<h1>Profile</h1>
+		</div>
+ 
+		<div class="blok">
+			<div class="kiri">
+				<img src="" alt="Profile Picture">				
+			</div>
+ 
+            <%= JSON.stringify(profile) %>
+			<div class="kanan">
+				<table>
+					<tr>
+						<th>Nama</th>
+						<th>:</th>
+						<td><%= profile.Profiles[0].name %></td>
+					</tr>
+					<tr>
+						<th>Username</th>
+						<th>:</th>
+						<td><%= profile.username %></td>
+					</tr>
+					<tr>
+						<th>Phone Number</th>
+						<th>:</th>
+						<td><%= profile.Profiles[0].phone_number %></td>
+					</tr>
+				</table>
+				
+			</div>
+ 
+		</div>		
+ 
+		<div class="blok">
+ 
+			<h2>Reservation</h2>			
+            <% if (profile.Reservations.length !== 0) { %>
+				<table border="2">
+                    <tr>
+                        <th>No.</th>
+                        <th></th>
+                        <th>Check-In</th>
+                        <th>Check-Out</th>
+                    </tr>
+                    <% profile.Reservations.forEach((el,idx) => { %>
+                     <tr>
+                        <td><%= idx+1 %></td>
+                        <td><%= el.formattedCheckIn() %></td>
+                        <td><%= el.check_out %></td>
+                     </tr>
+                    <% }) %>
+                </table>
+            <% } %>
+		</div>
+	</div>
 </body>
 </html>

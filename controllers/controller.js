@@ -42,14 +42,16 @@ class Controller {
             const { username, password, email } = req.body
 
             // Membuat data baru Table Users
-            await User.create({
+            let user = await User.create({
                 username: username,
                 password: password,
                 email: email
+            }, {
+                returning: true
             })
 
-            // res.send("123")
-            res.redirect("/login")
+            // res.send(user)
+            res.redirect(`/login?username=${user.username}&&email=${user.email}`)
         } catch (error) {
             // console.log(error)
             // res.send(error)
@@ -77,6 +79,8 @@ class Controller {
     // Login Form
     static async formLogin(req, res) {
         try {
+            // console.log(req.query)
+            let {username, email} = req.query
             // Cek error 
 
             // ==========
@@ -87,7 +91,7 @@ class Controller {
             }
             // ==========
 
-            res.render("login", { errors })
+            res.render("login", { errors ,username, email})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -152,7 +156,14 @@ class Controller {
                 }
             })
 
-            res.render("profile", {})
+            profile = profile[0]
+
+            console.log(profile.dataValues)
+            console.log(profile.dataValues.Profiles[0].dataValues)
+            console.log(profile.dataValues.Reservations[0].dataValues)
+
+            // res.send(profile)
+            res.render("./user/profile", {profile})
         } catch (error) {
             console.log(error)
             res.send(error)
