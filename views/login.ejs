@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <%- include('./partial/bootstrap') %>
 </head>
 <body>
 
+    <% if (username && email) { %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            You have register with username : <%= username %> and email : <%= email %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    <% } %>
 
     <% if (errors) { %>
      <hr>
@@ -16,6 +23,7 @@
      <hr>
     <% } %>
     <br>
+
     <form action="/login" method="post">
 
         <!-- Username -->

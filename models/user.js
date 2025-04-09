@@ -30,10 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       validate: {
         notNull: {
-          msg: "Email cannot be empty 1"
+          msg: "Email cannot be empty"
         },
         notEmpty: {
-          msg: "Email cannot be empty 2"
+          msg: "Email cannot be empty"
         },
         isEmail: {
           msg: "Must insert an email address"
@@ -73,7 +73,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     role:{
       type: DataTypes.STRING,
-      allowNull:false,
     }
   }, {
     sequelize,
@@ -85,6 +84,16 @@ module.exports = (sequelize, DataTypes) => {
     const hash = bcrypt.hashSync(user.password, salt);
 
     user.password = hash
+
+    user.role = "user"
+  })
+  User.afterCreate((user, option) => {
+    // console.log(user)
+    delete user.dataValues.password;
+    delete user.dataValues.id;
+    delete user.dataValues.updatedAt;
+    delete user.dataValues.createdAt;
+    delete user.dataValues.role;
   })
   return User;
 };

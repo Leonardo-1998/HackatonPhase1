@@ -9,7 +9,6 @@ const {
 } = require('../models');
 const bcrypt = require('bcryptjs');
 
-
 class Controller {
     //Home
     static async home(req,res){
@@ -26,17 +25,17 @@ class Controller {
             // Tampilkan error apa saja yang muncul
 
             // ==========
-            let {errors} = req.query
+            let { errors } = req.query
 
-            if(errors){
+            if (errors) {
                 errors = errors.split(",")
             }
 
-            console.log(errors)
+            // console.log(errors)
 
             // ==========
 
-            res.render("register", {errors})
+            res.render("register", { errors })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -47,7 +46,7 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password,email} = req.body
+            const { username, password, email} = req.body
             
             // Membuat data baru Table Users
             await User.create({
@@ -57,15 +56,15 @@ class Controller {
                 role : 'user'
             })
             
-            // res.send("123")
-            console.log(req.body + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-            res.redirect("/login")
+            // res.send(user)
+            res.redirect(`/login?username=${user.username}&&email=${user.email}`)
+
         } catch (error) {
             // console.log(error)
             // res.send(error)
 
             // Masukkan validation disini
-            
+
             // ============
             console.log(req.body)
             if (error.name === "SequelizeValidationError" || "SequelizeUniqueConstraintError") {
@@ -87,17 +86,19 @@ class Controller {
     // Login Form
     static async formLogin(req, res) {
         try {
+            // console.log(req.query)
+            let {username, email} = req.query
             // Cek error 
 
             // ==========
-            let {errors} = req.query
+            let { errors } = req.query
 
-            if(errors){
+            if (errors) {
                 errors = errors.split(",")
             }
             // ==========
 
-            res.render("login",{errors})
+            res.render("login", { errors ,username, email})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -107,51 +108,105 @@ class Controller {
     // Login Check
     static async checkLogin(req, res) {
         try {
-            let {username, password} = req.body
+            let { username, password } = req.body
 
-            let user = await User.findone({
-                where:{
-                    username : username
+            let user = await User.findOne({
+                where: {
+                    username: username
                 }
             })
 
-            if(user){
-                const isValidPassword = bcrypt.compareSync(password,user.password)
+            if (user) {
+                const isValidPassword = bcrypt.compareSync(password, user.password)
+                if (isValidPassword) {
+                    // Case Berhasil Login
 
-                res.redirect
+                    // Pemanggillan session => req.session
+                    // req.session.userId = user.id // Set session di controller
+                    
+                    // Hal sensitif tidak boleh ditaruh dalam session
+                    // Password tidak boleh ditaruh dalam session
+                    req.session.userId = user.id
+                    req.session.userRole = user.role
+
+                    // ====================
+                    res.redirect(`/home`) // <------------
+                    // ====================
+                } else {
+                    const error = "Invalid username/password"
+                    res.redirect(`/login?errors=${error}`)
+                }
+            } else {
+                const error = "Invalid username/password"
+                res.redirect(`/login?errors=${error}`)
             }
-            
-            // res.render("login")
         } catch (error) {
-            // console.log(1)
             console.log(error)
-            res.send(error)
-
-            // Mengecek Error dari Validasi
-
-            // ============
-            // if (error.name === "SequelizeValidationError") {
-            //     error = error.errors.map(el => {
-            //         return el.message
-            //     })
-            //     console.log(error)
-
-            //     // res.send(error)
-            //     res.redirect(`/login?errors=${error}`)
-            // } else {
-            //     console.log(error)
-            //     res.send(error)
-            // }
-            // ============   
+            const errors = "Invalid username/password"
+            res.redirect(`login?errors=${errors}`)
         }
     }
 
-    // Basic Page
-    static async allThread(req, res) {
+    // Profile
+    static async profile(req, res) {
         try {
+            let {UserId} = req.params
 
-            
-            
+            let profile = await User.findAll({
+                include:[{
+                    model: Profile
+                },{
+                    model: Reservation
+                }],
+                where:{
+                    id : +UserId
+                }
+            })
+
+            profile = profile[0]
+
+            console.log(profile.dataValues)
+            console.log(profile.dataValues.Profiles[0].dataValues)
+            console.log(profile.dataValues.Reservations[0].dataValues)
+
+            // res.send(profile)
+            res.render("./user/profile", {profile})
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+
+    // Logout
+    static async logout(req, res) {
+        try {
+            req.session.destroy(function(error){
+                if(error){
+                    console.log(error)
+                } else {
+                    res.redirect("/login")
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+
+    // Test
+    static async test(req, res) {
+        try {
+            res.render("test")
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+
+    // Basic Schema
+    static async home(req, res) {
+        try {
+            res.send("123")
         } catch (error) {
             console.log(error)
             res.send(error)

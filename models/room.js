@@ -2,6 +2,9 @@
 const {
   Model
 } = require('sequelize');
+
+const { formattedRupiah } = require('../helper/helper');
+
 module.exports = (sequelize, DataTypes) => {
   class Room extends Model {
     /**
@@ -20,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'RoomId',
         otherKey: 'AmenityId'
       })
+    }
+    
+    get formattedPrice(){
+      return formattedRupiah(this.price)
     }
   }
   Room.init({

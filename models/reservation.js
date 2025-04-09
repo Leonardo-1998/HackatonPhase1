@@ -14,6 +14,19 @@ module.exports = (sequelize, DataTypes) => {
       Reservation.belongsTo(models.User, {foreignKey: 'UserId'})
       Reservation.belongsTo(models.Room, {foreignKey: 'RoomId'})
     }
+
+    formattedCheckIn (){
+      let checkIn = this.check_in.toISOString()
+      checkIn = checkIn.split("T")[0]
+      return checkIn
+    }
+
+    formattedCheckOut (){
+      let checkOut = this.check_out.toISOString()
+      checkOut.split("T")[0]
+      return checkOut
+    }
+
   }
   Reservation.init({
     UserId: {
