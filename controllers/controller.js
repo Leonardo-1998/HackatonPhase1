@@ -175,7 +175,10 @@ class Controller {
                 },{
                     model: Reservation,
                     include:{
-                        model:Room
+                        model:Room,
+                        include:{
+                            model:Hotel
+                        }
                     }
                 }],
                 where:{
@@ -186,6 +189,8 @@ class Controller {
             userData = userData[0]
             let profileData = userData.dataValues.Profile
             let reservationData = userData.dataValues.Reservations
+
+            console.log(reservationData[0].dataValues.Room.dataValues.Hotel)
 
             // console.log(userData.dataValues)
             // console.log(profileData.dataValues)
