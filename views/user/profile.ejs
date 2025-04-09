@@ -11,6 +11,7 @@
     <%- include('../partial/navbar') %>
 	<h1>Profile</h1>
 	<img src="" alt="Profile Picture">
+	<a href="/user/<%= UserId %>/profile/edit"><button>Edit</button></a>
 	<table>
 		<tr>
 			<th>Nama</th>
@@ -44,30 +45,22 @@
 			<th>No.</th>
 			<th>Room Number</th>
 			<th>Room Type</th>
+			<th>Name</th>
+			<th>Address</th>
+			<th>Region</th>
 			<th>Check-In</th>
 			<th>Check-Out</th>
 		</tr>
 		<% reservationData.forEach((el,idx)=> { %>
 			<tr>
-				<td>
-					<%= idx+1 %>
-				</td>
-
-				<td>
-					<%= el.Room.dataValues.room_number %>
-				</td>
-				
-				<td>
-					<%= el.Room.dataValues.type %>
-				</td>
-				
-				<td>
-					<%= el.formattedCheckIn() %>
-				</td>
-				
-				<td>
-					<%= el.formattedCheckOut() %>
-				</td>
+				<td><%= idx+1 %></td>
+				<td><%= el.Room.dataValues.room_number %></td>
+				<td><%= el.Room.dataValues.type %></td>
+				<td><%= el.Room.dataValues.Hotel.name %></td>
+				<td><%= el.Room.dataValues.Hotel.address %></td>
+				<td><%= el.Room.dataValues.Hotel.region %></td>
+				<td><%= el.formattedCheckIn() %></td>
+				<td><%= el.formattedCheckOut() %></td>
 			</tr>
 			<% }) %>
 	</table>
