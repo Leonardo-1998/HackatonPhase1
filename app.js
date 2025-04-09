@@ -29,6 +29,8 @@ app.use(session({
 
 app.use(router);
 
+console.log("Hello world")
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

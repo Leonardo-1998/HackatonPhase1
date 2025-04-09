@@ -8,13 +8,19 @@ const {
     User
 } = require('../models');
 const bcrypt = require('bcryptjs');
+const {Op} = require('sequelize')
+const sequelize = require('sequelize')
 
 class Controller {
     //Home
     static async home(req,res){
         try {
-            let hotel = await Hotel.findAll()
-            res.render('home',{hotel})
+
+            let {region} = req.query.region
+
+            let hotels = await Hotel.findAll()
+            
+
         } catch (error) {
             console.log(error)
         }
@@ -46,18 +52,27 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password, email} = req.body
+            const { username, password, email, name, phone_number} = req.body
             
             // Membuat data baru Table Users
-            await User.create({
-                username:username,
-                email:email,
-                password:password,
-                role : 'user'
+           const newUser = await User.create({
+                username,
+                email,
+                password,
+                role:'user'
+            })
+
+            console.log(newUser)
+
+            await Profile.create({
+                UserId: newUser.id,
+                name,
+                phone_number,
+                profile_pic:"https://example.com/profile_pic.jpg"
             })
             
             // res.send(user)
-            res.redirect(`/login?username=${user.username}&&email=${user.email}`)
+            res.render(`/login`)
 
         } catch (error) {
             // console.log(error)
@@ -202,16 +217,6 @@ class Controller {
     static async reservation(req, res) {
         try {
             res.render("test")
-        } catch (error) {
-            console.log(error)
-            res.send(error)
-        }
-    }
-
-    // Basic Schema
-    static async home(req, res) {
-        try {
-            res.send("123")
         } catch (error) {
             console.log(error)
             res.send(error)

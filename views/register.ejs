@@ -3,78 +3,96 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Register</title>
     <%- include('./partial/bootstrap') %>
+    <style>
+      body {
+        background: #f8f9fa;
+      }
+    </style>
   </head>
   <body>
-      <%- include('./partial/navbar') %>
-    <br />
+    <%- include('./partial/navbar') %>
 
-    <% if (errors) { %>
-    <hr />
-    <% errors.forEach(el=> { %>
-    <p style="color: red"><%= el %></p>
-    <% }) %>
-    <hr />
-    <% } %>
+    <div
+      class="container d-flex justify-content-center align-items-center vh-100"
+    >
+      <div class="card shadow p-4 w-100" style="max-width: 500px">
+        <h3 class="text-center mb-4">Register</h3>
 
-    <form action="/register" method="post">
-      <!-- Username -->
-      <label for="username">Username</label>
-      <br />
-      <input
-        type="text"
-        name="username"
-        id="username"
-        placeholder="Ex : Haha"
-      />
-      <br /><br />
+        <% if (errors) { %>
+        <div class="alert alert-danger">
+          <% errors.forEach(el => { %>
+          <p class="mb-0"><%= el %></p>
+          <% }) %>
+        </div>
+        <% } %>
 
-      <!-- Username -->
-      <label for="email">Email</label>
-      <br />
-      <input
-        type="text"
-        name="email"
-        id="email"
-        placeholder="Ex : aaa@mail.com"
-      />
-      <br /><br />
+        <form action="/register" method="post">
+          <!-- Username -->
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              name="username"
+              id="username"
+              placeholder="Ex: Haha"
+            />
+          </div>
 
-      <!-- Password -->
-      <label for="password">Password</label>
-      <br />
-      <input
-        type="text"
-        name="password"
-        id="password"
-        placeholder="Ex : 123456"
-      />
-      <br /><br />
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              id="email"
+              placeholder="Ex: aaa@mail.com"
+            />
+          </div>
 
-      <!-- Role -->
-      <!-- ========== - Select - ========== -->
-      <!-- <label for="role">Role</label>
-        <br>
-        <select name="role" id="">
-            <option value="" selected>--- Select Role ---</option>
-            <option value="Admin">Admin</option>
-            <option value="User">User</option>
-        </select> -->
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="password"
+              id="password"
+              placeholder="Minimum 8 characters"
+            />
+          </div>
 
-      <!-- ========== - ========== - ========== -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input
+              type="test"
+              class="form-control"
+              name="name"
+              id="name"
+              placeholder="Enter your name"
+            />
+          </div>
 
-      <!-- ========== - Radio - ========== -->
-      <!-- <p>Role</p>
-        <input type="radio" name="role" value="User" id="role_1">
-        <label for="role_1">User</label>
+          <div class="mb-3">
+            <label for="phone_number" class="form-label">Phone Number</label>
+            <input
+              type="number"
+              class="form-control"
+              name="phone_number"
+              id="phone_number"
+              placeholder="Enter your Phone Number"
+            />
+          </div>
 
-        <input type="radio" name="role" value="Admin" id="role_2">
-        <label for="role_2">Admin</label> -->
-      <!-- ========== - ========== - ========== -->
+          <!-- Role (optional) -->
+          <!-- Uncomment and customize if needed -->
 
-      <!-- <br> -->
-      <button type="submit">Register</button>
-    </form>
+          <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

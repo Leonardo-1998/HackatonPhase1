@@ -7,8 +7,12 @@
     <%- include('./partial/bootstrap') %>
   </head>
   <body>
-      <%- include('./partial/navbar') %>
+    <%- include('./partial/navbar') %>
     <h1>Home</h1>
+
+    <% region.forEach(el => { %>
+    <button><a href="/?<%=el%>"><%= el %></a></button>
+    <% }) %>
     <table border="2">
       <tr>
         <th>Name</th>
