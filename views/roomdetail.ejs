@@ -8,6 +8,51 @@
 </head>
 <body>
     <%- include('./partial/navbar') %>
+
+    <%= JSON.stringify(room) %>
+    <table border ="1">
+        <tr>
+            <td colspan="2"><img src="#" alt="images"></td>
+        </tr>
+        <tr>
+            <td>Hotel Name</td>
+            <td>: <%= room.Hotel.name%></td>
+        </tr>
+        <tr>
+            <td>Hotel Address</td>
+            <td>: <%= room.Hotel.address %></td>
+        </tr>
+        <tr>
+            <td>Region</td>
+            <td>: <%= room.Hotel.region %></td>
+        </tr>
+        <tr>
+            <td>Room Number</td>
+            <td>: <%= room.room_number %></td>
+        </tr>
+        <tr>
+            <td>Room Type</td>
+            <td>: <%= room.type %></td>
+        </tr>
+        <tr>
+            <td>Price per Day</td>
+            <td>: <%= room.formattedPrice %></td>
+        </tr>
+
+    </table>
     
+    <form action="/user/<%= UserId %>/roomdetail/<%= RoomId %>" method="post">
+        <label for="check_in">Check-In</label>
+        <br>
+        <input type="date" name="check_in" id="check_in">
+        <br><br>
+        
+        <label for="check_out">Check-Out</label>
+        <br>
+        <input type="date" name="check_out" id="check_out">
+        <br><br>
+
+        <button type="submit">Reserve</button>
+    </form>
 </body>
 </html>

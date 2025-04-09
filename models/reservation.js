@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+const { formattedRupiah } = require('../helper/helper');
+
 module.exports = (sequelize, DataTypes) => {
   class Reservation extends Model {
     /**
@@ -25,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       let checkOut = this.check_out.toISOString()
       checkOut = checkOut.split("T")[0]
       return checkOut
+    }
+    
+    get formattedPrice(){
+      return formattedRupiah(this.price)
     }
 
   }

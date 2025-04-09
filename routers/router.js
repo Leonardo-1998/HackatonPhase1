@@ -24,8 +24,10 @@ router.get('/user/:UserId/profile',Controller.profile)
 router.get('/user/:UserId/profile/edit',Controller.editProfile)
 router.post('/user/:UserId/profile/edit',Controller.saveProfile)
 
-router.get('/user/:UserId/roomdetail/:RoomId',Controller.roomDetail)
-router.get('/user/:UserId/roomdetail/:RoomId/reservation',Controller.reservation)
+router.get('/user/:UserId/roomdetail/:RoomId',Controller.roomDetailAndReserve)
+router.post('/user/:UserId/roomdetail/:RoomId',Controller.saveReserve)
+
+// router.get('/user/:UserId/roomdetail/:RoomId/reservation',Controller.reservation)
 router.get('/user', Controller.X)
 
 

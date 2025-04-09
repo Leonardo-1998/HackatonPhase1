@@ -191,7 +191,7 @@ class Controller {
             let profileData = userData.dataValues.Profile
             let reservationData = userData.dataValues.Reservations
 
-            console.log(reservationData[0].dataValues.Room.dataValues.Hotel)
+            // console.log(reservationData[0].dataValues.Room.dataValues.Hotel)
 
             // console.log(userData.dataValues)
             // console.log(profileData.dataValues)
@@ -225,7 +225,7 @@ class Controller {
     static async editProfile(req, res) {
         try {
             let nameOfUser
-            let userId
+
             let { UserId } = req.params
 
             let profile = await Profile.findAll({
@@ -235,7 +235,7 @@ class Controller {
             })
             profile = profile[0]
 
-            res.render("./user/editProfile", { nameOfUser, userId, profile, UserId })
+            res.render("./user/editProfile", { nameOfUser, profile, UserId })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -266,30 +266,57 @@ class Controller {
     }
 
     // Room Detail
-    static async roomDetail(req, res) {
+    static async roomDetailAndReserve(req, res) {
         try {
             let nameOfUser
-            let userId
 
             let {UserId,RoomId} = req.params
             let room = await Room.findAll({
                 where : {
                     id: +RoomId
+                },
+                include:{
+                    model: Hotel
                 }
             })
 
+            room = room[0]
+
             console.log(room)
-            res.render("roomdetail", {nameOfUser,UserId})
+            res.render("roomdetail", {nameOfUser,UserId, RoomId, room})
         } catch (error) {
             console.log(error)
             res.send(error)
         }
     }
 
-    // Reservation
-    static async reservation(req, res) {
+    // saveReserve
+    static async saveReserve(req, res) {
         try {
-            res.render("test")
+            // console.log(req.body)
+            let {check_in, check_out} = req.body
+            let {UserId, RoomId} = req.params
+
+            let checkIn = new Date (check_in)
+            let checkOut = new Date (check_out)
+            
+            let duration = checkOut.getDate() - checkIn.getDate()
+
+            let room = await Room.findAll({
+                where:{
+                    id:RoomId
+                }
+            })
+
+            room = room[0]
+            // console.log(room)
+            let totalPrice = duration * room.price
+            // console.log(totalPrice)
+
+            // await Reservation.create({UserId,RoomId,check_in,check_out,totalPrice})
+
+            // res.send("123")
+            res.redirect(`/user/${UserId}/profile`)
         } catch (error) {
             console.log(error)
             res.send(error)
