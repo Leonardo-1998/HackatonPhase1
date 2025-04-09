@@ -4,7 +4,7 @@ const { isLoggedIn, isAdmin } = require('../helper/middleware')
 const router = express.Router()
 
 //Home
-router.get('/', Controller.home)
+router.get('/home', Controller.home)
 
 // Register
 router.get('/register', Controller.formRegister)

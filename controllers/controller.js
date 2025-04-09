@@ -13,8 +13,15 @@ class Controller {
     //Home
     static async home(req,res){
         try {
+            let {userId,userRole} = req.session
+            // console.log(req.session)
+            console.log(userId, userRole)
+
+            let nameOfUser = await User.userName(userId)
+            console.log(nameOfUser)
+
             let hotel = await Hotel.findAll()
-            res.render('home',{hotel})
+            res.render('home',{hotel, nameOfUser, userRole})
         } catch (error) {
             console.log(error)
         }
@@ -23,6 +30,7 @@ class Controller {
     static async formRegister(req, res) {
         try {
             // Tampilkan error apa saja yang muncul
+            let nameOfUser
 
             // ==========
             let { errors } = req.query
@@ -35,7 +43,7 @@ class Controller {
 
             // ==========
 
-            res.render("register", { errors })
+            res.render("register", { errors ,nameOfUser})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -89,6 +97,7 @@ class Controller {
     static async formLogin(req, res) {
         try {
             // console.log(req.query)
+            let nameOfUser
             let {username, email} = req.query
             // Cek error 
 
@@ -100,7 +109,7 @@ class Controller {
             }
             // ==========
 
-            res.render("login", { errors ,username, email})
+            res.render("login", { errors ,username, email, nameOfUser})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -206,16 +215,6 @@ class Controller {
     static async reservation(req, res) {
         try {
             res.render("test")
-        } catch (error) {
-            console.log(error)
-            res.send(error)
-        }
-    }
-
-    // Basic Schema
-    static async home(req, res) {
-        try {
-            res.send("123")
         } catch (error) {
             console.log(error)
             res.send(error)
