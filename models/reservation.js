@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 
     formattedCheckOut (){
       let checkOut = this.check_out.toISOString()
-      checkOut.split("T")[0]
+      checkOut = checkOut.split("T")[0]
       return checkOut
     }
 

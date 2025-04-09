@@ -152,25 +152,30 @@ class Controller {
         try {
             let {UserId} = req.params
 
-            let profile = await User.findAll({
+            let userData = await User.findAll({
                 include:[{
                     model: Profile
                 },{
-                    model: Reservation
+                    model: Reservation,
+                    include:{
+                        model:Room
+                    }
                 }],
                 where:{
                     id : +UserId
                 }
             })
 
-            profile = profile[0]
+            userData = userData[0]
+            let profileData = userData.dataValues.Profile
+            let reservationData = userData.dataValues.Reservations
 
-            console.log(profile.dataValues)
-            console.log(profile.dataValues.Profiles[0].dataValues)
-            console.log(profile.dataValues.Reservations[0].dataValues)
+            console.log(userData.dataValues)
+            console.log(profileData.dataValues)
+            console.log(reservationData[0].dataValues)
 
-            // res.send(profile)
-            res.render("./user/profile", {profile})
+            // res.send(userData)
+            res.render("./user/profile", {userData,profileData,reservationData})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -193,8 +198,8 @@ class Controller {
         }
     }
 
-    // Test
-    static async test(req, res) {
+    // Reservation
+    static async reservation(req, res) {
         try {
             res.render("test")
         } catch (error) {

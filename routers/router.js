@@ -18,15 +18,10 @@ router.post('/login', Controller.checkLogin)
 router.get('/logout', Controller.logout)
 
 // User
-router.get('/user/:UserId/profile',isLoggedIn, isAdmin, Controller.profile)
+router.get('/user/:UserId/profile',Controller.profile)
+router.get('/user/:UserId/reservation',Controller.reservation)
 router.get('/user', Controller.X)
 
 
 module.exports = router
 
-
-// Testing
-router.get('/home', Controller.home)
-
-// Landing Page
-router.get('/test', Controller.test)
