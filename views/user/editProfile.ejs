@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 	<%- include('../partial/bootstrap') %>
+    <script src="https://widget.cloudinary.com/v2/cloudinary.min.js"></script>
 </head>
 <body>
     <%- include('../partial/navbar') %>
     <form action="/user/<%= UserId %>/profile/edit" method="post">
         <label for="profile_pic">Image</label>
-        <input type="text" name="profile_pic" id="profile_pic" value="<%= profile.profile_pic %>">
+        <!-- <input type="text" name="profile_pic" id="profile_pic" value="<%= profile.profile_pic %>"> -->
+        <button id="upload_widget" name="profile_pic">Unggah Gambar</button>
 
         <button type="submit">Edit</button>
     </form>
