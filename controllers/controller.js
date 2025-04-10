@@ -89,6 +89,8 @@ class Controller {
                 email,
                 password,
                 role: 'user'
+            },{
+                returning : true
             })
 
             console.log(newUser)
@@ -101,7 +103,7 @@ class Controller {
             })
 
             // res.send(user)
-            res.redirect(`/login`)
+            res.redirect(`/login?username=${newUser.username}`)
 
         } catch (error) {
             // console.log(error)
@@ -132,7 +134,7 @@ class Controller {
         try {
             // console.log(req.query)
 
-            let { username, email } = req.query
+            let { username } = req.query
             // Cek error 
 
             // ==========
@@ -143,7 +145,7 @@ class Controller {
             }
             // ==========
 
-            res.render("login", { errors, username, email })
+            res.render("login", { errors, username})
         } catch (error) {
             console.log(error)
             res.send(error)

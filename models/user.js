@@ -100,7 +100,8 @@ module.exports = (sequelize, DataTypes) => {
   User.afterCreate((user, option) => {
     // console.log(user)
     delete user.dataValues.password;
-    // delete user.dataValues.id;
+    delete user.dataValues.email;
+    delete user.dataValues.id;
     delete user.dataValues.updatedAt;
     delete user.dataValues.createdAt;
     delete user.dataValues.role;
