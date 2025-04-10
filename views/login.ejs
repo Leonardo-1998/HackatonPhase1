@@ -1,51 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <%- include('./partial/bootstrap') %>
 </head>
 <body>
-    <%- include('./partial/navbarLoginRegister') %>
+    <%- include('./partial/navbarLoginRegister') %><% if (username && email) { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      You have register with username : <%= username %> and email : <%= email %>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    <% } %> <% if (errors) { %>
+    <hr />
+    <% errors.forEach(el => { %>
+    <p style="color: red"><%= el %></p>
+    <% }) %>
+    <hr />
+    <% } %>
 
-    <% if (username && email) { %>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            You have register with username : <%= username %> and email : <%= email %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div
+      class="container d-flex justify-content-center align-items-center vh-100"
+    >
+      <div class="card shadow p-4 w-100 text-center" style="max-width: 500px">
+        <h3 class="text-center mb-4">Login</h3>
+        <form action="/login" method="post">
+          <!-- Username -->
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <br />
+            <input
+              type="text"
+              name="username"
+              id="username"
+              placeholder="Username"
+              class="form-label"
+            />
           </div>
-    <% } %>
 
-    <% if (errors) { %>
-     <hr>
-     <% errors.forEach(el => { %>
-      <p style="color: red;"><%= el %></p>
-     <% }) %>
-     <hr>
-    <% } %>
-    <br>
-
-    <form action="/login" method="post">
-
-        <!-- Username -->
-        <label for="username">Username</label>
-        <br>
-        <input type="text" name="username" id="username" placeholder="Username">
-        <br><br>
-
-        <!-- Email -->
-        <!-- <label for="email">Email</label>
+          <!-- Email -->
+          <!-- <label for="email">Email</label>
         <br>
         <input type="text" name="email" id="email" placeholder="Email">
         <br><br> -->
 
-        <!-- Password -->
-        <label for="password">Password</label>
-        <br>
-        <input type="text" name="password" id="password" placeholder="Password">
-        <br><br>
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <br />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              class="form-label"
+            />
+          </div>
 
-        <button type="submit">Login</button>
-    </form>
-</body>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

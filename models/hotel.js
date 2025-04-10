@@ -4,6 +4,14 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Hotel extends Model {
+
+    static async filterRegion(region){
+      let option = {}
+      if (region){
+        option.where = {region}
+      }
+      return await Hotel.findAll(option)
+    }
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.

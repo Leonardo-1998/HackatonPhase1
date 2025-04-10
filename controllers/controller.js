@@ -9,19 +9,31 @@ const {
     User
 } = require('../models');
 const bcrypt = require('bcryptjs');
+const {Op} = require('sequelize')
+const sequelize = require('sequelize')
 
 class Controller {
     //Home
     static async home(req, res) {
         try {
-            let { userId, userRole } = req.session
 
-            console.log(userId, userRole)
+            let {region} = req.query
+            let Allhotels = await Hotel.findAll()
+            let regionFilter = [...new Set(Allhotels.map(el => el.region))]
 
-            let nameOfUser = await User.userName(userId)
+            let queryRegion = region ? {region : {[Op.eq] : region}} : {}
 
-            let hotel = await Hotel.findAll()
-            res.render('home', { hotel, nameOfUser, userRole, userId })
+            let hotels = await Hotel.findAll({
+                where : queryRegion
+            })
+
+            res.render('home',{
+                hotels,
+                regionFilter,
+                region
+            })
+            
+
         } catch (error) {
             console.log(error)
         }
@@ -30,9 +42,6 @@ class Controller {
     static async formRegister(req, res) {
         try {
             // Tampilkan error apa saja yang muncul
-            let nameOfUser
-            let userId
-
             // ==========
             let { errors } = req.query
 
@@ -55,20 +64,27 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password, email } = req.body
-
+            const { username, password, email, name, phone_number} = req.body
+            
             // Membuat data baru Table Users
-            let user = await User.create({
-                username: username,
-                email: email,
-                password: password,
-                role: 'user'
-            }, {
-                returning: true
+           const newUser = await User.create({
+                username,
+                email,
+                password,
+                role:'user'
+            })
+
+            console.log(newUser)
+
+            await Profile.create({
+                UserId: newUser.id,
+                name,
+                phone_number,
+                profile_pic:"https://example.com/profile_pic.jpg"
             })
 
             // res.send(user)
-            res.redirect(`/login?username=${user.username}&&email=${user.email}`)
+            res.render(`/login`)
 
         } catch (error) {
             // console.log(error)
