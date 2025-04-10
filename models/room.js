@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       return formattedRupiah(this.price)
     }
   }
+  
   Room.init({
     HotelId: DataTypes.INTEGER,
     room_number: DataTypes.STRING,
