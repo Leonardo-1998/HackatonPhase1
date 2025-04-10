@@ -10,8 +10,8 @@
     <%- include('./partial/navbar') %>
     <h1>Home</h1>
 
-    <% region.forEach(el => { %>
-    <button><a href="/?<%=el%>"><%= el %></a></button>
+    <% regionFilter.forEach(el => { %>
+    <button><a href="/home?<%=el%>"><%= el %></a></button>
     <% }) %>
     <table border="2">
       <tr>
@@ -19,7 +19,7 @@
         <th>Address</th>
         <th>Region</th>
       </tr>
-      <% hotel.forEach(el => { %>
+      <% hotels.forEach(el => { %>
       <tr>
         <td><%= el.name %></td>
         <td><%= el.address %></td>

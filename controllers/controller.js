@@ -16,9 +16,21 @@ class Controller {
     static async home(req,res){
         try {
 
-            let {region} = req.query.region
+            let {region} = req.query
+            let Allhotels = await Hotel.findAll()
+            let regionFilter = [...new Set(Allhotels.map(el => el.region))]
 
-            let hotels = await Hotel.findAll()
+            let queryRegion = region ? {region : {[Op.eq] : region}} : {}
+
+            let hotels = await Hotel.findAll({
+                where : queryRegion
+            })
+
+            res.render('home',{
+                hotels,
+                regionFilter,
+                region
+            })
             
 
         } catch (error) {
