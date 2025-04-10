@@ -9,14 +9,17 @@ const {
     User
 } = require('../models');
 const bcrypt = require('bcryptjs');
-const {Op} = require('sequelize')
+const { Op } = require('sequelize')
 const sequelize = require('sequelize')
+const streamifier = require('streamifier')
+const cloudinary = require('../config/cloudinary')
+
 
 class Controller {
     //Home
     static async home(req, res) {
         try {
-
+            let {username} = req.query
             let { userId, userRole } = req.session
             console.log(userId)
             let nameOfUser = await User.userName(userId)
@@ -24,22 +27,31 @@ class Controller {
             let {region} = req.query
             let Allhotels = await Hotel.findAll()
             let regionFilter = [...new Set(Allhotels.map(el => el.region))]
+            // console.log(regionFilter)
 
-            let queryRegion = region ? {region : {[Op.eq] : region}} : {}
+            let queryRegion = region ? { region: { [Op.eq]: region } } : {}
 
             let hotels = await Hotel.findAll({
-                where : queryRegion
+                where: queryRegion,
+                include:{
+                    model: Room
+                }
             })
+            // console.log(hotels)
 
+            let amenities = await Amenity.findAll()
+            // console.log(amenities)
+            
             res.render('home',{
                 hotels,
                 regionFilter,
                 region,
                 userId,
                 userRole,
-                nameOfUser
+                nameOfUser,
+                amenities,
+                username
             })
-            
 
         } catch (error) {
             console.log(error)
@@ -49,9 +61,6 @@ class Controller {
     static async formRegister(req, res) {
         try {
             // Tampilkan error apa saja yang muncul
-            let nameOfUser
-            let userId
-
             // ==========
             let { errors } = req.query
 
@@ -63,7 +72,7 @@ class Controller {
 
             // ==========
 
-            res.render("register", { errors, nameOfUser, userId })
+            res.render("register", { errors })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -81,7 +90,9 @@ class Controller {
                 username,
                 email,
                 password,
-                role:'user'
+                role: 'user'
+            },{
+                returning : true
             })
 
             console.log(newUser)
@@ -94,7 +105,7 @@ class Controller {
             })
 
             // res.send(user)
-            res.redirect(`/login`)
+            res.redirect(`/login?username=${newUser.username}`)
 
         } catch (error) {
             // console.log(error)
@@ -124,10 +135,8 @@ class Controller {
     static async formLogin(req, res) {
         try {
             // console.log(req.query)
-            let nameOfUser
-            let userId
 
-            let { username, email } = req.query
+            let { username } = req.query
             // Cek error 
 
             // ==========
@@ -138,7 +147,7 @@ class Controller {
             }
             // ==========
 
-            res.render("login", { errors, username, email, nameOfUser, userId })
+            res.render("login", { errors, username})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -170,7 +179,7 @@ class Controller {
                     req.session.userRole = user.role
 
                     // ====================
-                    res.redirect(`/home`) // <------------
+                    res.redirect(`/home?username=${user.username}`) // <------------
                     // ====================
                 } else {
                     const error = "Invalid username/password"
@@ -226,7 +235,14 @@ class Controller {
             // console.log(reservationData[0].dataValues)
 
             // res.send(userData)
-            res.render("./user/profile", { userData, profileData, reservationData, userId, nameOfUser, UserId })
+            res.render("./user/profile", { 
+                userData, 
+                profileData, 
+                reservationData, 
+                userId, 
+                nameOfUser, 
+                UserId 
+            })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -252,7 +268,9 @@ class Controller {
     // Edit Profile
     static async editProfile(req, res) {
         try {
-            let nameOfUser
+            let { userId, userRole } = req.session
+            console.log(userId)
+            let nameOfUser = await User.userName(userId)
 
             let { UserId } = req.params
 
@@ -267,7 +285,7 @@ class Controller {
             // console.log(UserId)
             // console.log(profile)
 
-            res.render("./user/editProfile", { nameOfUser, profile, UserId })
+            res.render("./user/editProfile", { nameOfUser, profile, UserId, nameOfUser, userRole, userId })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -278,18 +296,47 @@ class Controller {
     static async saveProfile(req, res) {
         try {
             let { UserId } = req.params
-            let {profile_pic,name,phone_number} = req.body
+            let {name,phone_number} = req.body
+
+            let imageURL = null
+
+            console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
+            if(req.file){
+                const streamUploader = (req) => {
+                    return new Promise ((resolve,reject) => {
+                        const stream = cloudinary.uploader.upload_stream((error,result) => {
+                            console.log(result + "<<<<<<<<<<<<<<")
+                            if (result){
+                                resolve(result)
+                            } else {
+                                reject(result)
+                            }
+                        });
+                        streamifier.createReadStream(req.file.buffer).pipe(stream)
+                    })
+                }
+                const result = await streamUploader(req)
+                console.log(result + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+                imageURL = result.secure_url
+            }
+            console.log(imageURL + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
+
+            const updateData = {
+                name,
+                phone_number
+            }
+
+            if (imageURL){
+                updateData.profile_pic = imageURL
+            }
 
             // console.log("123456")
 
-            await Profile.update({
-                profile_pic,
-                name,
-                phone_number
-
-            },{
-                where:{
-                    id:+UserId
+            await Profile.update(updateData ,{
+                where : {
+                    UserId : +UserId
                 }
             })
 
@@ -306,22 +353,38 @@ class Controller {
     // Room Detail
     static async roomDetailAndReserve(req, res) {
         try {
-            let nameOfUser
+            let { userId, userRole } = req.session
+            // console.log(userId)
+            let nameOfUser = await User.userName(userId)
 
-            let {UserId,RoomId} = req.params
+            let { errors } = req.query
+
+            if (errors) {
+                errors = errors.split(",")
+            }
+
+            let { UserId, RoomId } = req.params
             let room = await Room.findAll({
-                where : {
+                where: {
                     id: +RoomId
                 },
-                include:{
+                include: {
                     model: Hotel
                 }
             })
 
             room = room[0]
 
-            console.log(room)
-            res.render("roomdetail", {nameOfUser,UserId, RoomId, room})
+            // console.log(room)
+            res.render("roomdetail", {
+                UserId, 
+                RoomId, 
+                room, 
+                userId, 
+                userRole, 
+                nameOfUser,
+                errors
+             })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -331,18 +394,20 @@ class Controller {
     // saveReserve
     static async saveReserve(req, res) {
         try {
-            // console.log(req.body)
-            let {check_in, check_out} = req.body
-            let {UserId, RoomId} = req.params
+            // console.log("=========================")
+            // res.send("123456")
 
-            let checkIn = new Date (check_in)
-            let checkOut = new Date (check_out)
-            
+            let { check_in, check_out } = req.body
+            let { UserId, RoomId } = req.params
+
+            let checkIn = new Date(check_in)
+            let checkOut = new Date(check_out)
+
             let duration = checkOut.getDate() - checkIn.getDate()
 
             let room = await Room.findAll({
-                where:{
-                    id:RoomId
+                where: {
+                    id: RoomId
                 }
             })
 
@@ -351,9 +416,44 @@ class Controller {
             let totalPrice = duration * room.price
             // console.log(totalPrice)
 
-            // await Reservation.create({UserId,RoomId,check_in,check_out,totalPrice})
+            let temp = await Reservation.create({UserId,RoomId,check_in,check_out,totalPrice})
+
 
             // res.send("123")
+            res.redirect(`/user/${UserId}/profile`)
+        } catch (error) {
+            // console.log(req.body)
+            // console.log(error)
+            // res.send(error)
+
+            let {UserId, RoomId} = req.params
+            if (error.name === "SequelizeValidationError" || "SequelizeUniqueConstraintError") {
+                error = error.errors.map(el => {
+                    return el.message
+                })
+                // console.log(error)
+
+                // res.send(error)
+                res.redirect(`/user/${UserId}/roomdetail/${RoomId}?errors=${error}`)
+            } else {
+                console.log(error)
+                res.send(error)
+            }
+        }
+    }
+
+    // Delete Reservation
+    static async deleteReservation(req, res) {
+        try {
+            let {UserId, ReserveId} = req.params
+            // Log the configuration
+            
+            await Reservation.destroy({
+                where:{
+                    id : +ReserveId
+                }
+            })
+            
             res.redirect(`/user/${UserId}/profile`)
         } catch (error) {
             console.log(error)

@@ -4,41 +4,47 @@
     "HotelId": 1,
     "room_number": "101",
     "type": "Single",
-    "price": 100
+    "price": 100000,
+    "imageURL" :"assets/images/room101.jpg" 
   },
   {
     "id": 2,
     "HotelId": 1,
     "room_number": "102",
     "type": "Double",
-    "price": 150
+    "price": 150000,
+    "imageURL" :"assets/images/room102.jpg" 
   },
   {
     "id": 3,
     "HotelId": 2,
     "room_number": "201",
     "type": "Suite",
-    "price": 250
+    "price": 250000,
+    "imageURL" :"assets/images/room201.jpg" 
   },
   {
     "id": 4,
     "HotelId": 2,
     "room_number": "202",
-    "type": "Family",
-    "price": 300
+    "type": "Single",
+    "price": 300000,
+    "imageURL" :"assets/images/room202.jpg" 
   },
   {
     "id": 5,
     "HotelId": 3,
     "room_number": "301",
-    "type": "Deluxe",
-    "price": 180
+    "type": "Double",
+    "price": 180000,
+    "imageURL" :"assets/images/room301.jpg" 
   },
   {
     "id": 6,
     "HotelId": 3,
     "room_number": "302",
-    "type": "Standard",
-    "price": 120
+    "type": "Suite",
+    "price": 120000,
+    "imageURL" :"assets/images/room302.jpg" 
   }
 ]

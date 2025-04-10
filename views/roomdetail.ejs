@@ -8,39 +8,48 @@
 </head>
 <body>
     <%- include('./partial/navbar') %>
+    <% if (errors) { %>
+        <div class="alert alert-danger">
+          <% errors.forEach(el => { %>
+          <p class="mb-0"><%= el %></p>
+          <% }) %>
+        </div>
+        <% } %>
 
-    <%= JSON.stringify(room) %>
-    <table border ="1">
-        <tr>
-            <td colspan="2"><img src="#" alt="images"></td>
-        </tr>
-        <tr>
-            <td>Hotel Name</td>
-            <td>: <%= room.Hotel.name%></td>
-        </tr>
-        <tr>
-            <td>Hotel Address</td>
-            <td>: <%= room.Hotel.address %></td>
-        </tr>
-        <tr>
-            <td>Region</td>
-            <td>: <%= room.Hotel.region %></td>
-        </tr>
-        <tr>
-            <td>Room Number</td>
-            <td>: <%= room.room_number %></td>
-        </tr>
-        <tr>
-            <td>Room Type</td>
-            <td>: <%= room.type %></td>
-        </tr>
-        <tr>
-            <td>Price per Day</td>
-            <td>: <%= room.formattedPrice %></td>
-        </tr>
-
+    <table class="table table-bordered">
+        <td>
+            <tr>
+                <td colspan="2">
+                    <img src="/<%= room.imageURL %>" alt="images" width="300 px">
+                </td>
+            </tr>
+            <tr>
+                <td>Hotel Name</td>
+                <td>: <%= room.Hotel.name%></td>
+            </tr>
+            <tr>
+                <td>Hotel Address</td>
+                <td>: <%= room.Hotel.address %></td>
+            </tr>
+            <tr>
+                <td>Region</td>
+                <td>: <%= room.Hotel.region %></td>
+            </tr>
+            <tr>
+                <td>Room Number</td>
+                <td>: <%= room.room_number %></td>
+            </tr>
+            <tr>
+                <td>Room Type</td>
+                <td>: <%= room.type %></td>
+            </tr>
+            <tr>
+                <td>Price per Day</td>
+                <td>: <%= room.formattedPrice %></td>
+            </tr>
+        </td>
     </table>
-    
+
     <form action="/user/<%= UserId %>/roomdetail/<%= RoomId %>" method="post">
         <label for="check_in">Check-In</label>
         <br>
@@ -54,5 +63,6 @@
 
         <button type="submit">Reserve</button>
     </form>
+    
 </body>
 </html>

@@ -4,48 +4,55 @@
     "UserId": 1,
     "RoomId": 1,
     "check_in": "2024-03-10",
-    "check_out": "2024-03-15"
+    "check_out": "2024-03-15",
+    "totalPrice" : 100
   },
   {
     "id": 2,
     "UserId": 2,
     "RoomId": 2,
     "check_in": "2024-03-12",
-    "check_out": "2024-03-17"
+    "check_out": "2024-03-17",
+    "totalPrice" : 100
   },
   {
     "id": 3,
     "UserId": 1,
     "RoomId": 3,
     "check_in": "2024-03-20",
-    "check_out": "2024-03-25"
+    "check_out": "2024-03-25",
+    "totalPrice" : 100
   },
   {
     "id": 4,
     "UserId": 2,
     "RoomId": 4,
     "check_in": "2024-03-22",
-    "check_out": "2024-03-27"
+    "check_out": "2024-03-27",
+    "totalPrice" : 100
   },
   {
     "id": 5,
     "UserId": 1,
     "RoomId": 5,
     "check_in": "2024-03-28",
-    "check_out": "2024-04-02"
+    "check_out": "2024-04-02",
+    "totalPrice" : 100
   },
   {
     "id": 6,
     "UserId": 2,
     "RoomId": 6,
     "check_in": "2024-03-30",
-    "check_out": "2024-04-05"
+    "check_out": "2024-04-05",
+    "totalPrice" : 100
   },
   {
     "id": 7,
     "UserId": 1,
     "RoomId": 1,
     "check_in": "2024-04-07",
-    "check_out": "2024-04-12" 
+    "check_out": "2024-04-12",
+    "totalPrice" : 100 
   }
 ]

@@ -10,21 +10,52 @@
     <%- include('./partial/navbar') %>
     <h1>Home</h1>
 
+    <% if (username) {%>
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Welcome Back <%= username %> !
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      <% } %>
+
     <% regionFilter.forEach(el => { %>
-    <button><a href="/home?<%=el%>"><%= el %></a></button>
+    <button><a href="/home?region=<%=el%>"><%= el %></a></button>
     <% }) %>
-    <table border="2">
+    <br><br>
+    <table class="table table-bordered">
       <tr>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Region</th>
+        <th>Picture</th>
+        <th>Details</th>
+        <th>Action</th>
       </tr>
       <% hotels.forEach(el => { %>
-      <tr>
-        <td><%= el.name %></td>
-        <td><%= el.address %></td>
-        <td><%= el.region %></td>
-      </tr>
+       <% el.Rooms.forEach(ele => { %>
+        <tr>
+          <td><img src="<%= ele.imageURL %>" alt="Picture of Room" width="150px"></td>
+          <td>
+            <b><%= el.name %></b>
+            <br>
+            <%= el.address %>
+            <hr>
+            Amenities : <br>
+            <% amenities.forEach((element,idx) => { %>
+             <%= element.name %>
+             <% if (idx !== amenities.length-1) { %>
+              ,
+             <% } %>
+            <% }) %>
+          </td>
+          <td>
+            <%= ele.formattedPrice %>
+            <p>PER NIGHT</p>
+            <a href="/user/<%= userId %>/roomdetail/<%= ele.id %>"><button>Details</button></a>
+          </td>
+        </tr>
+       <% }) %>
       <% }) %>
     </table>
   </body>

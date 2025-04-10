@@ -4,14 +4,14 @@
       "UserId": 1,
       "name": "John Doe",
       "phone_number": 1234567890,
-      "profile_pic": "https://example.com/profile_pic.jpg" 
+      "profile_pic": "./assets/images/default-pic.png" 
     },
     {
       "id": 2,
       "UserId": 2, 
       "name": "Jane Smith",
       "phone_number": 9876543210,
-      "profile_pic": "https://example.com/profile_pic2.jpg" 
+      "profile_pic": "./assets/images/default-pic.png" 
     }
 ]
   

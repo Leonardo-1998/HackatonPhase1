@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const router = require('./routers/router')
 const app = express()
@@ -8,6 +9,8 @@ const path = require('path')
 app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
+
 
 
 app.use(session({
@@ -35,5 +38,5 @@ app.use(router);
 console.log("Hello world")
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Open on - http://localhost:${port}/login`)
 })

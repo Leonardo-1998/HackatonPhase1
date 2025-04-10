@@ -2,7 +2,11 @@
 const {
   Model
 } = require('sequelize');
-const { formattedRupiah } = require('../helper/helper');
+const {
+  formattedRupiah,
+  currentDate,
+  datePlusOne
+} = require('../helper/helper');
 
 module.exports = (sequelize, DataTypes) => {
   class Reservation extends Model {
@@ -13,34 +17,66 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Reservation.belongsTo(models.User, {foreignKey: 'UserId'})
-      Reservation.belongsTo(models.Room, {foreignKey: 'RoomId'})
+      Reservation.belongsTo(models.User, { foreignKey: 'UserId' })
+      Reservation.belongsTo(models.Room, { foreignKey: 'RoomId' })
     }
 
-    formattedCheckIn (){
+    formattedCheckIn() {
       let checkIn = this.check_in.toISOString()
       checkIn = checkIn.split("T")[0]
       return checkIn
     }
 
-    formattedCheckOut (){
+    formattedCheckOut() {
       let checkOut = this.check_out.toISOString()
       checkOut = checkOut.split("T")[0]
       return checkOut
     }
-    
-    get formattedPrice(){
-      return formattedRupiah(this.price)
+
+    get formattedPrice() {
+      return formattedRupiah(this.totalPrice)
     }
 
   }
+
   Reservation.init({
     UserId: {
-      type :  DataTypes.INTEGER
+      type: DataTypes.INTEGER
     },
     RoomId: DataTypes.INTEGER,
-    check_in: DataTypes.INTEGER,
-    check_out: DataTypes.INTEGER,
+    check_in: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notNull:{
+          msg: "You must insert Checkin Date" 
+        },
+        notEmpty:{
+          msg: "You must insert Checkin Date" 
+        },
+        isAfter: {
+          args: currentDate(),
+          msg: "Check-In date must be after today"
+        }
+      }
+    },
+    check_out: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notNull:{
+          msg: "You must insert Checkout Date" 
+        },
+        notEmpty:{
+          msg: "You must insert Checkout Date" 
+        },
+        isAfter: {
+          args: currentDate(Reservation.check_in),
+          msg: "Check-Out must be after Check-In date"
+        }
+      }
+    },
+    totalPrice: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Reservation',
