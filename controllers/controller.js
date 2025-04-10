@@ -25,24 +25,29 @@ class Controller {
             let {region} = req.query
             let Allhotels = await Hotel.findAll()
             let regionFilter = [...new Set(Allhotels.map(el => el.region))]
+            // console.log(regionFilter)
 
             let queryRegion = region ? { region: { [Op.eq]: region } } : {}
 
             let hotels = await Hotel.findAll({
-                where: queryRegion
+                where: queryRegion,
+                include:{
+                    model: Room
+                }
             })
+            // console.log(hotels)
 
-            let rooms = await Room.findAll({
-                
-            })
-
+            let amenities = await Amenity.findAll()
+            // console.log(amenities)
+            
             res.render('home',{
                 hotels,
                 regionFilter,
                 region,
                 userId,
                 userRole,
-                nameOfUser
+                nameOfUser,
+                amenities,
             })
 
         } catch (error) {
@@ -307,7 +312,9 @@ class Controller {
     // Room Detail
     static async roomDetailAndReserve(req, res) {
         try {
-            let nameOfUser
+            let { userId, userRole } = req.session
+            // console.log(userId)
+            let nameOfUser = await User.userName(userId)
 
             let { UserId, RoomId } = req.params
             let room = await Room.findAll({
@@ -322,7 +329,7 @@ class Controller {
             room = room[0]
 
             console.log(room)
-            res.render("roomdetail", { nameOfUser, UserId, RoomId, room })
+            res.render("roomdetail", { nameOfUser, UserId, RoomId, room, userId, userRole, nameOfUser })
         } catch (error) {
             console.log(error)
             res.send(error)

@@ -12,6 +12,8 @@ npx sequelize-cli model:generate --name RoomAmenity --attributes RoomId:integer,
 Skeleton
 npx sequelize-cli migration:generate --name add-column-<name_column>-to-<name_table>
 npx sequelize-cli migration:generate --name add-column-check_in-check_out-RoomId-to-Reservations
+npx sequelize-cli migration:generate --name add-column-totalPrice-to-Reservations
+npx sequelize-cli migration:generate --name add-column-imageURL-to-Room
 
 Seed
 npx sequelize-cli seed:generate --name seed-Amenity

@@ -8,7 +8,7 @@ const upload = multer({ dest: './assets/uploads/' })
 
 
 //Home
-router.get('/home',isLoggedIn, Controller.home)
+router.get('/home', Controller.home)
 
 // Register
 router.get('/register', Controller.formRegister)
