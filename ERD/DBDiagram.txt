@@ -27,6 +27,7 @@ Table Rooms {
   room_number varchar
   type varchar
   price integer
+  imageURL string
 }
 
 Table Reservations {
@@ -35,8 +36,8 @@ Table Reservations {
   RoomId int [ref: > Rooms.id]
   check_in date
   check_out date
+  totalPrice integer
 }
-
 
 
 Table Amenities {

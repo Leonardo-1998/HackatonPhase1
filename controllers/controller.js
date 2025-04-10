@@ -20,6 +20,7 @@ class Controller {
     //Home
     static async home(req, res) {
         try {
+            let {username} = req.query
             let { userId, userRole } = req.session
             console.log(userId)
             let nameOfUser = await User.userName(userId)
@@ -50,6 +51,7 @@ class Controller {
                 userRole,
                 nameOfUser,
                 amenities,
+                username
             })
 
         } catch (error) {
@@ -90,6 +92,8 @@ class Controller {
                 email,
                 password,
                 role: 'user'
+            },{
+                returning : true
             })
 
             console.log(newUser)
@@ -102,7 +106,7 @@ class Controller {
             })
 
             // res.send(user)
-            res.redirect(`/login`)
+            res.redirect(`/login?username=${newUser.username}`)
 
         } catch (error) {
             // console.log(error)
@@ -133,7 +137,7 @@ class Controller {
         try {
             // console.log(req.query)
 
-            let { username, email } = req.query
+            let { username } = req.query
             // Cek error 
 
             // ==========
@@ -144,7 +148,7 @@ class Controller {
             }
             // ==========
 
-            res.render("login", { errors, username, email })
+            res.render("login", { errors, username})
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -176,7 +180,7 @@ class Controller {
                     req.session.userRole = user.role
 
                     // ====================
-                    res.redirect(`/home`) // <------------
+                    res.redirect(`/home?username=${user.username}`) // <------------
                     // ====================
                 } else {
                     const error = "Invalid username/password"

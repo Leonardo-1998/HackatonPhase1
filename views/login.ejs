@@ -7,10 +7,10 @@
     <%- include('./partial/bootstrap') %>
   </head>
   <body>
-    <%- include('./partial/navbarLoginRegister') %> <% if (username && email) {
-    %>
+    <%- include('./partial/navbarLoginRegister') %>
+    <% if (username) {%>
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-      You have register with username : <%= username %> and email : <%= email %>
+      You have register with username : <%= username %>
       <button
         type="button"
         class="btn-close"
