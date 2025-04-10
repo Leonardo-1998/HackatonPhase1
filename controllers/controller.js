@@ -19,6 +19,7 @@ class Controller {
     //Home
     static async home(req, res) {
         try {
+            let {username} = req.query
             let { userId, userRole } = req.session
             console.log(userId)
             let nameOfUser = await User.userName(userId)
@@ -49,6 +50,7 @@ class Controller {
                 userRole,
                 nameOfUser,
                 amenities,
+                username
             })
 
         } catch (error) {
@@ -177,7 +179,7 @@ class Controller {
                     req.session.userRole = user.role
 
                     // ====================
-                    res.redirect(`/home`) // <------------
+                    res.redirect(`/home?username=${user.username}`) // <------------
                     // ====================
                 } else {
                     const error = "Invalid username/password"

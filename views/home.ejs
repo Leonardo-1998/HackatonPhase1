@@ -10,6 +10,18 @@
     <%- include('./partial/navbar') %>
     <h1>Home</h1>
 
+    <% if (username) {%>
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Welcome Back <%= username %> !
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      <% } %>
+
     <% regionFilter.forEach(el => { %>
     <button><a href="/home?region=<%=el%>"><%= el %></a></button>
     <% }) %>
