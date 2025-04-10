@@ -31,6 +31,9 @@ router.post('/user/:UserId/profile/edit',isLoggedIn,Controller.saveProfile)
 router.get('/user/:UserId/roomdetail/:RoomId',isLoggedIn,Controller.roomDetailAndReserve)
 router.post('/user/:UserId/roomdetail/:RoomId',isLoggedIn,Controller.saveReserve)
 
+//Hotel id
+// router.get()
+
 // router.get('/user/:UserId/roomdetail/:RoomId/reservation',Controller.reservation)
 router.get('/test', Controller.test)
 router.post('/test', upload.single('avatar'),Controller.testSave)

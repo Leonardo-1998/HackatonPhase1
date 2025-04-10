@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     
     get formattedPrice(){
-      return formattedRupiah(this.price)
+      return formattedRupiah(this.totalPrice)
     }
 
   }
@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     RoomId: DataTypes.INTEGER,
     check_in: DataTypes.INTEGER,
     check_out: DataTypes.INTEGER,
+    totalPrice : DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Reservation',
