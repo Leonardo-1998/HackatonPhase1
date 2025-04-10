@@ -2,9 +2,12 @@ const express = require('express')
 const Controller = require('../controllers/controller')
 const { isLoggedIn, isAdmin } = require('../helper/middleware')
 const router = express.Router()
+const upload = require('../middlewares/upload')
+
+
 
 //Home
-router.get('/home', isLoggedIn, Controller.home)
+router.get('/home',isLoggedIn, Controller.home)
 
 // Register
 router.get('/register', Controller.formRegister)
@@ -18,19 +21,21 @@ router.post('/login', Controller.checkLogin)
 router.get('/logout', Controller.logout)
 
 // User
-router.get('/user/:UserId/profile',Controller.profile)
+router.get('/user/:UserId/profile',isLoggedIn,Controller.profile)
 
 // User/Edit
-router.get('/user/:UserId/profile/edit',Controller.editProfile)
-router.post('/user/:UserId/profile/edit',Controller.saveProfile)
+router.get('/user/:UserId/profile/edit',isLoggedIn,Controller.editProfile)
+router.post('/user/:UserId/profile/edit',isLoggedIn,upload.single('profile_pic'),Controller.saveProfile)
 
-router.get('/user/:UserId/roomdetail/:RoomId',Controller.roomDetailAndReserve)
-router.post('/user/:UserId/roomdetail/:RoomId',Controller.saveReserve)
+router.get('/user/:UserId/roomdetail/:RoomId',isLoggedIn,Controller.roomDetailAndReserve)
+router.post('/user/:UserId/roomdetail/:RoomId',isLoggedIn,Controller.saveReserve)
 
 //Hotel id
 // router.get()
 
 // router.get('/user/:UserId/roomdetail/:RoomId/reservation',Controller.reservation)
+router.get('/test', Controller.test)
+router.post('/test', upload.single('avatar'),Controller.testSave)
 router.get('/user', Controller.X)
 
 

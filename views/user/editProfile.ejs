@@ -3,53 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Edit Profile</title>
     <%- include('../partial/bootstrap') %>
   </head>
   <body>
     <div
-      class="container d-flex justify-content-center align-items-center vh-100"
+      class="container vh-100 d-flex justify-content-center align-items-center"
     >
-      <div class="card shadow">
-        <div class="justify-content-center">
+      <div class="card shadow p-4" style="width: 400px">
+        <div class="text-center mb-4">
           <img
-            style="width: 150px; height: 200px"
             src="<%= profile.profile_pic %>"
             alt="Profile pic"
+            class="img-thumbnail"
+            style="width: 150px; height: 200px; object-fit: cover"
           />
         </div>
-        <form action="/user/<%= UserId %>/profile/edit" method="post">
-          <div>
-            <label for="name">Name</label>
+
+        <form
+          action="/user/<%= UserId %>/profile/edit"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
             <input
               type="text"
               name="name"
               id="name"
-              placeholder="<%= profile.name %>"
+              class="form-control"
+              value="<%= profile.name %>"
             />
-            <label for="phone_number">Phone Number</label>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone_number" class="form-label">Phone Number</label>
             <input
               type="text"
               name="phone_number"
               id="phone_number"
-              placeholder="<%= profile.phone_number %>"
+              class="form-control"
+              value="<%= profile.phone_number %>"
             />
           </div>
 
-          <div>
-            <label for="profile_pic">Image</label>
+          <div class="mb-4">
+            <label for="profile_pic" class="form-label">Profile Picture</label>
             <input
-              type="text"
+              type="file"
               name="profile_pic"
               id="profile_pic"
-              value="<%= profile.profile_pic %>"
+              class="form-control"
             />
           </div>
 
-          <button type="submit">Submit</button>
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="/user/<%= UserId %>/profile/" class="btn btn-secondary"
+              >Cancel</a
+            >
+          </div>
         </form>
-        <br />
-        <a href="/user/<%= UserId %>/profile/"><button>Cancel</button></a>
       </div>
     </div>
   </body>
