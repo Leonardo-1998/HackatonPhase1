@@ -12,11 +12,7 @@ const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize')
 const sequelize = require('sequelize')
 
-const cloudinary = require('cloudinary').v2
-cloudinary.config({
-    secure: true
-});
-require("dotenv").config();
+const cloudinary = require('cloudinary');
 
 class Controller {
     //Home
@@ -26,7 +22,7 @@ class Controller {
             console.log(userId)
             let nameOfUser = await User.userName(userId)
 
-            let { region } = req.query
+            let {region} = req.query
             let Allhotels = await Hotel.findAll()
             let regionFilter = [...new Set(Allhotels.map(el => el.region))]
 
@@ -44,7 +40,6 @@ class Controller {
                 userRole,
                 nameOfUser
             })
-
 
         } catch (error) {
             console.log(error)
@@ -76,10 +71,10 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password, email, name, phone_number } = req.body
-
+            const { username, password, email, name, phone_number} = req.body
+            
             // Membuat data baru Table Users
-            const newUser = await User.create({
+           const newUser = await User.create({
                 username,
                 email,
                 password,
@@ -92,11 +87,11 @@ class Controller {
                 UserId: newUser.id,
                 name,
                 phone_number,
-                profile_pic: "https://example.com/profile_pic.jpg"
+                profile_pic:"/assets/images/default-pic.png"
             })
 
             // res.send(user)
-            res.render(`/login`)
+            res.redirect(`/login`)
 
         } catch (error) {
             // console.log(error)
@@ -258,12 +253,16 @@ class Controller {
 
             let { UserId } = req.params
 
-            let profile = await Profile.findAll({
+            let profile = await Profile.findOne({
                 where: {
-                    id: +UserId
+                    UserId: +UserId
                 }
             })
-            profile = profile[0]
+            console.log(UserId)
+            console.log(profile)
+            // profile = profile[0]
+            // console.log(UserId)
+            // console.log(profile)
 
             res.render("./user/editProfile", { nameOfUser, profile, UserId, nameOfUser, userRole, userId })
         } catch (error) {
@@ -276,17 +275,23 @@ class Controller {
     static async saveProfile(req, res) {
         try {
             let { UserId } = req.params
-            let { profile_pic } = req.body
+            let {profile_pic,name,phone_number} = req.body
 
             // console.log("123456")
 
             await Profile.update({
-                profile_pic: profile_pic
-            }, {
-                where: {
-                    id: +UserId
+                profile_pic,
+                name,
+                phone_number
+
+            },{
+                where:{
+                    id:+UserId
                 }
             })
+
+            // console.log(req.body)
+            
 
             res.redirect(`/user/${UserId}/profile`)
         } catch (error) {
@@ -357,30 +362,25 @@ class Controller {
     static async test(req, res) {
         try {
             // Log the configuration
-            console.log(cloudinary.config());
-            /////////////////////////
-            // Uploads an image file
-            /////////////////////////
-            const uploadImage = async (imagePath) => {
-
-                // Use the uploaded file's name as the asset's public ID and 
-                // allow overwriting the asset with new versions
-                const options = {
-                use_filename: true,
-                unique_filename: false,
-                overwrite: true,
-                };
-
-                try {
-                // Upload the image
-                const result = await cloudinary.uploader.upload(imagePath, options);
-                console.log(result);
-                return result.public_id;
-                } catch (error) {
-                console.error(error);
-                }
-            };
+           
             res.render("test")
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+
+    // Test
+    static async testSave(req, res) {
+        try {
+            // Log the configuration
+            console.log(req.file)
+            let {path} = req.file
+
+            console.log(path)
+
+           
+            res.redirect("/test")
         } catch (error) {
             console.log(error)
             res.send(error)

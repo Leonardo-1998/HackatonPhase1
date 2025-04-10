@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <%- include('./partial/bootstrap') %>
-</head>
-<body>
-    <%- include('./partial/navbarLoginRegister') %><% if (username && email) { %>
+  </head>
+  <body>
+    <%- include('./partial/navbarLoginRegister') %> <% if (username && email) {
+    %>
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
       You have register with username : <%= username %> and email : <%= email %>
       <button

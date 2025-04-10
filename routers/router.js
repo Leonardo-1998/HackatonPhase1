@@ -3,6 +3,10 @@ const Controller = require('../controllers/controller')
 const { isLoggedIn, isAdmin } = require('../helper/middleware')
 const router = express.Router()
 
+const multer = require('multer');
+const upload = multer({ dest: './assets/uploads/' })
+
+
 //Home
 router.get('/home',isLoggedIn, Controller.home)
 
@@ -29,6 +33,7 @@ router.post('/user/:UserId/roomdetail/:RoomId',isLoggedIn,Controller.saveReserve
 
 // router.get('/user/:UserId/roomdetail/:RoomId/reservation',Controller.reservation)
 router.get('/test', Controller.test)
+router.post('/test', upload.single('avatar'),Controller.testSave)
 router.get('/user', Controller.X)
 
 
