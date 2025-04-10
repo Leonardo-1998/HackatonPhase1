@@ -1,68 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-	<%- include('./partial/bootstrap') %>
-</head>
-<body>
-    <%- include('./partial/navbar') %>
-    <% if (errors) { %>
-        <div class="alert alert-danger">
-          <% errors.forEach(el => { %>
-          <p class="mb-0"><%= el %></p>
-          <% }) %>
-        </div>
-        <% } %>
+    <%- include('./partial/bootstrap') %>
+  </head>
+  <body>
+    <%- include('./partial/navbar') %> <% if (errors) { %>
+    <div class="alert alert-danger">
+      <% errors.forEach(el => { %>
+      <p class="mb-0"><%= el %></p>
+      <% }) %>
+    </div>
+    <% } %>
 
     <table class="table table-bordered">
-        <td>
-            <tr>
-                <td colspan="2">
-                    <img src="/<%= room.imageURL %>" alt="images" width="300 px">
-                </td>
-            </tr>
-            <tr>
-                <td>Hotel Name</td>
-                <td>: <%= room.Hotel.name%></td>
-            </tr>
-            <tr>
-                <td>Hotel Address</td>
-                <td>: <%= room.Hotel.address %></td>
-            </tr>
-            <tr>
-                <td>Region</td>
-                <td>: <%= room.Hotel.region %></td>
-            </tr>
-            <tr>
-                <td>Room Number</td>
-                <td>: <%= room.room_number %></td>
-            </tr>
-            <tr>
-                <td>Room Type</td>
-                <td>: <%= room.type %></td>
-            </tr>
-            <tr>
-                <td>Price per Day</td>
-                <td>: <%= room.formattedPrice %></td>
-            </tr>
-        </td>
+      <td>
+        <tr>
+          <td colspan="2">
+            <img src="/<%= room.imageURL %>" alt="images" width="300 px" />
+          </td>
+        </tr>
+        <tr>
+          <td>Hotel Name</td>
+          <td>: <%= room.Hotel.name%></td>
+        </tr>
+        <tr>
+          <td>Hotel Address</td>
+          <td>: <%= room.Hotel.address %></td>
+        </tr>
+        <tr>
+          <td>Region</td>
+          <td>: <%= room.Hotel.region %></td>
+        </tr>
+        <tr>
+          <td>Room Number</td>
+          <td>: <%= room.room_number %></td>
+        </tr>
+        <tr>
+          <td>Room Type</td>
+          <td>: <%= room.type %></td>
+        </tr>
+        <tr>
+          <td>Price per Day</td>
+          <td>: <%= room.formattedPrice %></td>
+        </tr>
+      </td>
     </table>
 
     <form action="/user/<%= UserId %>/roomdetail/<%= RoomId %>" method="post">
-        <label for="check_in">Check-In</label>
-        <br>
-        <input type="date" name="check_in" id="check_in">
-        <br><br>
-        
-        <label for="check_out">Check-Out</label>
-        <br>
-        <input type="date" name="check_out" id="check_out">
-        <br><br>
+      <label for="check_in">Check-In</label>
+      <br />
+      <input
+        type="date"
+        name="check_in"
+        id="check_in"
+        min="<%= currentDate %>"
+      />
+      <br /><br />
 
-        <button type="submit">Reserve</button>
+      <label for="check_out">Check-Out</label>
+      <br />
+      <input type="date" name="check_out" id="check_out" />
+      <br /><br />
+
+      <button type="submit">Reserve</button>
     </form>
-    
-</body>
+  </body>
 </html>

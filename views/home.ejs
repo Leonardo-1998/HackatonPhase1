@@ -22,41 +22,41 @@
       </div>
       <% } %>
 
+  <button><a href="/home?region=">All</a></button>
     <% regionFilter.forEach(el => { %>
     <button><a href="/home?region=<%=el%>"><%= el %></a></button>
     <% }) %>
-    <br><br>
+
+    <br /><br />
     <table class="table table-bordered">
       <tr>
         <th>Picture</th>
         <th>Details</th>
         <th>Action</th>
       </tr>
-      <% hotels.forEach(el => { %>
-       <% el.Rooms.forEach(ele => { %>
-        <tr>
-          <td><img src="<%= ele.imageURL %>" alt="Picture of Room" width="150px"></td>
-          <td>
-            <b><%= el.name %></b>
-            <br>
-            <%= el.address %>
-            <hr>
-            Amenities : <br>
-            <% amenities.forEach((element,idx) => { %>
-             <%= element.name %>
-             <% if (idx !== amenities.length-1) { %>
-              ,
-             <% } %>
-            <% }) %>
-          </td>
-          <td>
-            <%= ele.formattedPrice %>
-            <p>PER NIGHT</p>
-            <a href="/user/<%= userId %>/roomdetail/<%= ele.id %>"><button>Details</button></a>
-          </td>
-        </tr>
-       <% }) %>
-      <% }) %>
+      <% hotels.forEach(el => { %> <% el.Rooms.forEach(ele => { %>
+      <tr>
+        <td>
+          <img src="<%= ele.imageURL %>" alt="Picture of Room" width="150px" />
+        </td>
+        <td>
+          <b><%= el.name %></b>
+          <br />
+          <%= el.address %>
+          <hr />
+          Amenities : <br />
+          <% amenities.forEach((element,idx) => { %> <%= element.name %> <% if
+          (idx !== amenities.length-1) { %> , <% } %> <% }) %>
+        </td>
+        <td>
+          <%= ele.formattedPrice %>
+          <p>PER NIGHT</p>
+          <a href="/user/<%= userId %>/roomdetail/<%= ele.id %>"
+            ><button>Details</button></a
+          >
+        </td>
+      </tr>
+      <% }) %> <% }) %>
     </table>
   </body>
 </html>
