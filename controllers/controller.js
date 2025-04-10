@@ -17,6 +17,10 @@ class Controller {
     static async home(req, res) {
         try {
 
+            let { userId, userRole } = req.session
+            console.log(userId)
+            let nameOfUser = await User.userName(userId)
+
             let {region} = req.query
             let Allhotels = await Hotel.findAll()
             let regionFilter = [...new Set(Allhotels.map(el => el.region))]
@@ -30,7 +34,10 @@ class Controller {
             res.render('home',{
                 hotels,
                 regionFilter,
-                region
+                region,
+                userId,
+                userRole,
+                nameOfUser
             })
             
 
@@ -83,11 +90,11 @@ class Controller {
                 UserId: newUser.id,
                 name,
                 phone_number,
-                profile_pic:"https://example.com/profile_pic.jpg"
+                profile_pic:"/assets/images/default-pic.png"
             })
 
             // res.send(user)
-            res.render(`/login`)
+            res.redirect(`/login`)
 
         } catch (error) {
             // console.log(error)
@@ -247,12 +254,16 @@ class Controller {
 
             let { UserId } = req.params
 
-            let profile = await Profile.findAll({
+            let profile = await Profile.findOne({
                 where: {
-                    id: +UserId
+                    UserId: +UserId
                 }
             })
-            profile = profile[0]
+            console.log(UserId)
+            console.log(profile)
+            // profile = profile[0]
+            // console.log(UserId)
+            // console.log(profile)
 
             res.render("./user/editProfile", { nameOfUser, profile, UserId })
         } catch (error) {
@@ -265,17 +276,23 @@ class Controller {
     static async saveProfile(req, res) {
         try {
             let { UserId } = req.params
-            let {profile_pic} = req.body
+            let {profile_pic,name,phone_number} = req.body
 
             // console.log("123456")
 
             await Profile.update({
-                profile_pic:profile_pic
+                profile_pic,
+                name,
+                phone_number
+
             },{
                 where:{
                     id:+UserId
                 }
             })
+
+            // console.log(req.body)
+            
 
             res.redirect(`/user/${UserId}/profile`)
         } catch (error) {
