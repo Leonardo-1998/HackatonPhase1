@@ -11,8 +11,9 @@ const {
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize')
 const sequelize = require('sequelize')
+const streamifier = require('streamifier')
+const cloudinary = require('../config/cloudinary')
 
-const cloudinary = require('cloudinary');
 
 class Controller {
     //Home
@@ -291,18 +292,47 @@ class Controller {
     static async saveProfile(req, res) {
         try {
             let { UserId } = req.params
-            let {profile_pic,name,phone_number} = req.body
+            let {name,phone_number} = req.body
+
+            let imageURL = null
+
+            console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
+            if(req.file){
+                const streamUploader = (req) => {
+                    return new Promise ((resolve,reject) => {
+                        const stream = cloudinary.uploader.upload_stream((error,result) => {
+                            console.log(result + "<<<<<<<<<<<<<<")
+                            if (result){
+                                resolve(result)
+                            } else {
+                                reject(result)
+                            }
+                        });
+                        streamifier.createReadStream(req.file.buffer).pipe(stream)
+                    })
+                }
+                const result = await streamUploader(req)
+                console.log(result + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+                imageURL = result.secure_url
+            }
+            console.log(imageURL + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
+
+            const updateData = {
+                name,
+                phone_number
+            }
+
+            if (imageURL){
+                updateData.profile_pic = imageURL
+            }
 
             // console.log("123456")
 
-            await Profile.update({
-                profile_pic,
-                name,
-                phone_number
-
-            },{
-                where:{
-                    id:+UserId
+            await Profile.update(updateData ,{
+                where : {
+                    UserId : +UserId
                 }
             })
 

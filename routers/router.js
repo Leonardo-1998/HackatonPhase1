@@ -2,9 +2,8 @@ const express = require('express')
 const Controller = require('../controllers/controller')
 const { isLoggedIn, isAdmin } = require('../helper/middleware')
 const router = express.Router()
+const upload = require('../middlewares/upload')
 
-const multer = require('multer');
-const upload = multer({ dest: './assets/uploads/' })
 
 
 //Home
@@ -27,7 +26,7 @@ router.get('/user/:UserId/profile/:ReserveId/delete',Controller.deleteReservatio
 
 // User/Edit
 router.get('/user/:UserId/profile/edit',isLoggedIn,Controller.editProfile)
-router.post('/user/:UserId/profile/edit',isLoggedIn,Controller.saveProfile)
+router.post('/user/:UserId/profile/edit',isLoggedIn,upload.single('profile_pic'),Controller.saveProfile)
 
 router.get('/user/:UserId/roomdetail/:RoomId',isLoggedIn,Controller.roomDetailAndReserve)
 router.post('/user/:UserId/roomdetail/:RoomId',isLoggedIn,Controller.saveReserve)
