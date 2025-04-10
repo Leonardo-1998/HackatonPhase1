@@ -13,7 +13,18 @@ const currentDate = (date = new Date)=>{
   return currentDate
 }
 
+const datePlusOne = (date = new Date)=>{
+  let currentDate = new Date(date)
+  currentDate = currentDate.toISOString().split("T")[0]
+  currentDate = currentDate.split("-")
+  currentDate[2] = +currentDate[2] + 1
+  currentDate = currentDate.join("-")
+  return currentDate
+}
+
+
 module.exports = {
   formattedRupiah,
-  currentDate
+  currentDate,
+  datePlusOne
 }

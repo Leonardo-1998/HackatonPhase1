@@ -323,6 +323,12 @@ class Controller {
             // // console.log(userId)
             // let nameOfUser = await User.userName(userId)
 
+            let { errors } = req.query
+
+            if (errors) {
+                errors = errors.split(",")
+            }
+
             let { UserId, RoomId } = req.params
             let room = await Room.findAll({
                 where: {
@@ -343,6 +349,7 @@ class Controller {
                 // userId, 
                 // userRole, 
                 // nameOfUser
+                errors
              })
         } catch (error) {
             console.log(error)
@@ -354,9 +361,6 @@ class Controller {
     static async saveReserve(req, res) {
         try {
             // console.log("=========================")
-            // let date = new Date(new Date)
-            // date = date.toISOString().split("T")[0]
-            // console.log(date)
             // res.send("123456")
 
             let { check_in, check_out } = req.body
@@ -378,13 +382,29 @@ class Controller {
             let totalPrice = duration * room.price
             // console.log(totalPrice)
 
-            await Reservation.create({UserId,RoomId,check_in,check_out,totalPrice})
+            let temp = await Reservation.create({UserId,RoomId,check_in,check_out,totalPrice})
+
 
             // res.send("123")
             res.redirect(`/user/${UserId}/profile`)
         } catch (error) {
-            console.log(error)
-            res.send(error)
+            // console.log(req.body)
+            // console.log(error)
+            // res.send(error)
+
+            let {UserId, RoomId} = req.params
+            if (error.name === "SequelizeValidationError" || "SequelizeUniqueConstraintError") {
+                error = error.errors.map(el => {
+                    return el.message
+                })
+                // console.log(error)
+
+                // res.send(error)
+                res.redirect(`/user/${UserId}/roomdetail/${RoomId}?errors=${error}`)
+            } else {
+                console.log(error)
+                res.send(error)
+            }
         }
     }
 

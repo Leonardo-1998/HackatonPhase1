@@ -7,6 +7,15 @@
 	<%- include('./partial/bootstrap') %>
 </head>
 <body>
+    <%- include('./partial/navbar') %>
+    <% if (errors) { %>
+        <div class="alert alert-danger">
+          <% errors.forEach(el => { %>
+          <p class="mb-0"><%= el %></p>
+          <% }) %>
+        </div>
+        <% } %>
+
     <table border ="1">
         <td>
             <tr>
