@@ -195,9 +195,9 @@ class Controller {
     // Profile
     static async profile(req, res) {
         try {
-            // let { userId, userRole } = req.session
-            // console.log(userId)
-            // let nameOfUser = await User.userName(userId)
+            let { userId, userRole } = req.session
+            console.log(userId)
+            let nameOfUser = await User.userName(userId)
 
             let { UserId } = req.params
 
@@ -235,8 +235,8 @@ class Controller {
                 userData, 
                 profileData, 
                 reservationData, 
-                // userId, 
-                // nameOfUser, 
+                userId, 
+                nameOfUser, 
                 UserId 
             })
         } catch (error) {
@@ -349,9 +349,9 @@ class Controller {
     // Room Detail
     static async roomDetailAndReserve(req, res) {
         try {
-            // let { userId, userRole } = req.session
-            // // console.log(userId)
-            // let nameOfUser = await User.userName(userId)
+            let { userId, userRole } = req.session
+            // console.log(userId)
+            let nameOfUser = await User.userName(userId)
 
             let { errors } = req.query
 
@@ -376,9 +376,9 @@ class Controller {
                 UserId, 
                 RoomId, 
                 room, 
-                // userId, 
-                // userRole, 
-                // nameOfUser
+                userId, 
+                userRole, 
+                nameOfUser,
                 errors
              })
         } catch (error) {

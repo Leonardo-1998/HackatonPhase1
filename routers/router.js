@@ -5,7 +5,7 @@ const router = express.Router()
 const upload = require('../middlewares/upload')
 
 //Home
-router.get('/home', Controller.home)
+router.get('/home',isLoggedIn, Controller.home)
 
 // Register
 router.get('/register', Controller.formRegister)
