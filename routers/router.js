@@ -27,6 +27,9 @@ router.post('/user/:UserId/profile/edit',Controller.saveProfile)
 router.get('/user/:UserId/roomdetail/:RoomId',Controller.roomDetailAndReserve)
 router.post('/user/:UserId/roomdetail/:RoomId',Controller.saveReserve)
 
+//Hotel id
+// router.get()
+
 // router.get('/user/:UserId/roomdetail/:RoomId/reservation',Controller.reservation)
 router.get('/user', Controller.X)
 

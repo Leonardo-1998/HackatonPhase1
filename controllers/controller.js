@@ -31,6 +31,10 @@ class Controller {
                 where : queryRegion
             })
 
+            let rooms = await Room.findAll({
+                
+            })
+
             res.render('home',{
                 hotels,
                 regionFilter,

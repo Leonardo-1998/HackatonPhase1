@@ -24,21 +24,21 @@
     "id": 4,
     "HotelId": 2,
     "room_number": "202",
-    "type": "Family",
+    "type": "Single",
     "price": 300
   },
   {
     "id": 5,
     "HotelId": 3,
     "room_number": "301",
-    "type": "Deluxe",
+    "type": "Single",
     "price": 180
   },
   {
     "id": 6,
     "HotelId": 3,
     "room_number": "302",
-    "type": "Standard",
+    "type": "Suite",
     "price": 120
   }
 ]
