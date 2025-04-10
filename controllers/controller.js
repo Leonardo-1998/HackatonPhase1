@@ -194,9 +194,9 @@ class Controller {
     // Profile
     static async profile(req, res) {
         try {
-            let { userId, userRole } = req.session
-            console.log(userId)
-            let nameOfUser = await User.userName(userId)
+            // let { userId, userRole } = req.session
+            // console.log(userId)
+            // let nameOfUser = await User.userName(userId)
 
             let { UserId } = req.params
 
@@ -230,7 +230,14 @@ class Controller {
             // console.log(reservationData[0].dataValues)
 
             // res.send(userData)
-            res.render("./user/profile", { userData, profileData, reservationData, userId, nameOfUser, UserId })
+            res.render("./user/profile", { 
+                userData, 
+                profileData, 
+                reservationData, 
+                // userId, 
+                // nameOfUser, 
+                UserId 
+            })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -312,9 +319,9 @@ class Controller {
     // Room Detail
     static async roomDetailAndReserve(req, res) {
         try {
-            let { userId, userRole } = req.session
-            // console.log(userId)
-            let nameOfUser = await User.userName(userId)
+            // let { userId, userRole } = req.session
+            // // console.log(userId)
+            // let nameOfUser = await User.userName(userId)
 
             let { UserId, RoomId } = req.params
             let room = await Room.findAll({
@@ -328,8 +335,15 @@ class Controller {
 
             room = room[0]
 
-            console.log(room)
-            res.render("roomdetail", { nameOfUser, UserId, RoomId, room, userId, userRole, nameOfUser })
+            // console.log(room)
+            res.render("roomdetail", {
+                UserId, 
+                RoomId, 
+                room, 
+                // userId, 
+                // userRole, 
+                // nameOfUser
+             })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -339,7 +353,12 @@ class Controller {
     // saveReserve
     static async saveReserve(req, res) {
         try {
-            // console.log(req.body)
+            // console.log("=========================")
+            // let date = new Date(new Date)
+            // date = date.toISOString().split("T")[0]
+            // console.log(date)
+            // res.send("123456")
+
             let { check_in, check_out } = req.body
             let { UserId, RoomId } = req.params
 
@@ -359,7 +378,7 @@ class Controller {
             let totalPrice = duration * room.price
             // console.log(totalPrice)
 
-            // await Reservation.create({UserId,RoomId,check_in,check_out,totalPrice})
+            await Reservation.create({UserId,RoomId,check_in,check_out,totalPrice})
 
             // res.send("123")
             res.redirect(`/user/${UserId}/profile`)
@@ -369,29 +388,19 @@ class Controller {
         }
     }
 
-    // Test
-    static async test(req, res) {
+    // Delete Reservation
+    static async deleteReservation(req, res) {
         try {
+            let {UserId, ReserveId} = req.params
             // Log the configuration
-           
-            res.render("test")
-        } catch (error) {
-            console.log(error)
-            res.send(error)
-        }
-    }
-
-    // Test
-    static async testSave(req, res) {
-        try {
-            // Log the configuration
-            console.log(req.file)
-            let {path} = req.file
-
-            console.log(path)
-
-           
-            res.redirect("/test")
+            
+            await Reservation.destroy({
+                where:{
+                    id : +ReserveId
+                }
+            })
+            
+            res.redirect(`/user/${UserId}/profile`)
         } catch (error) {
             console.log(error)
             res.send(error)

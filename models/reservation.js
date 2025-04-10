@@ -2,7 +2,10 @@
 const {
   Model
 } = require('sequelize');
-const { formattedRupiah } = require('../helper/helper');
+const { 
+  formattedRupiah,
+  currentDate
+ } = require('../helper/helper');
 
 module.exports = (sequelize, DataTypes) => {
   class Reservation extends Model {
@@ -34,12 +37,18 @@ module.exports = (sequelize, DataTypes) => {
     }
 
   }
+
   Reservation.init({
     UserId: {
       type :  DataTypes.INTEGER
     },
     RoomId: DataTypes.INTEGER,
-    check_in: DataTypes.INTEGER,
+    check_in: {
+      type: DataTypes.DATE,
+      validate:{
+        isAfter:currentDate()
+      }
+    },
     check_out: DataTypes.INTEGER,
     totalPrice : DataTypes.INTEGER
   }, {

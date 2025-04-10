@@ -22,21 +22,20 @@ router.post('/login', Controller.checkLogin)
 router.get('/logout', Controller.logout)
 
 // User
-router.get('/user/:UserId/profile',isLoggedIn,Controller.profile)
+router.get('/user/:UserId/profile',Controller.profile)
+router.get('/user/:UserId/profile/:ReserveId/delete',Controller.deleteReservation)
 
 // User/Edit
 router.get('/user/:UserId/profile/edit',isLoggedIn,Controller.editProfile)
 router.post('/user/:UserId/profile/edit',isLoggedIn,Controller.saveProfile)
 
-router.get('/user/:UserId/roomdetail/:RoomId',isLoggedIn,Controller.roomDetailAndReserve)
-router.post('/user/:UserId/roomdetail/:RoomId',isLoggedIn,Controller.saveReserve)
+router.get('/user/:UserId/roomdetail/:RoomId',Controller.roomDetailAndReserve)
+router.post('/user/:UserId/roomdetail/:RoomId',Controller.saveReserve)
 
 //Hotel id
 // router.get()
 
 // router.get('/user/:UserId/roomdetail/:RoomId/reservation',Controller.reservation)
-router.get('/test', Controller.test)
-router.post('/test', upload.single('avatar'),Controller.testSave)
 router.get('/user', Controller.X)
 
 
