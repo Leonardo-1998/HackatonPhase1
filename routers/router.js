@@ -4,8 +4,6 @@ const { isLoggedIn, isAdmin } = require('../helper/middleware')
 const router = express.Router()
 const upload = require('../middlewares/upload')
 
-
-
 //Home
 router.get('/home', Controller.home)
 
@@ -22,7 +20,7 @@ router.get('/logout', Controller.logout)
 
 // User
 router.get('/user/:UserId/profile',isLoggedIn,Controller.profile)
-router.get('/user/:UserId/profile/:ReserveId/delete',Controller.deleteReservation)
+router.get('/user/:UserId/profile/:ReserveId/delete',isLoggedIn,Controller.deleteReservation)
 
 // User/Edit
 router.get('/user/:UserId/profile/edit',isLoggedIn,Controller.editProfile)
