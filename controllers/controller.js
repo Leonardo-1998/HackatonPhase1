@@ -63,7 +63,7 @@ class Controller {
 
             // ==========
 
-            res.render("register", { errors })
+            res.render("register", { errors, nameOfUser, userId })
         } catch (error) {
             console.log(error)
             res.send(error)
@@ -124,6 +124,8 @@ class Controller {
     static async formLogin(req, res) {
         try {
             // console.log(req.query)
+            let nameOfUser
+            let userId
 
             let { username, email } = req.query
             // Cek error 
@@ -136,7 +138,7 @@ class Controller {
             }
             // ==========
 
-            res.render("login", { errors, username, email })
+            res.render("login", { errors, username, email, nameOfUser, userId })
         } catch (error) {
             console.log(error)
             res.send(error)
