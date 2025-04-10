@@ -7,15 +7,19 @@
     <%- include('./partial/bootstrap') %>
   </head>
   <body>
-      <%- include('./partial/navbar') %>
+    <%- include('./partial/navbar') %>
     <h1>Home</h1>
+
+    <% regionFilter.forEach(el => { %>
+    <button><a href="/home?<%=el%>"><%= el %></a></button>
+    <% }) %>
     <table border="2">
       <tr>
         <th>Name</th>
         <th>Address</th>
         <th>Region</th>
       </tr>
-      <% hotel.forEach(el => { %>
+      <% hotels.forEach(el => { %>
       <tr>
         <td><%= el.name %></td>
         <td><%= el.address %></td>

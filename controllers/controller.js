@@ -9,19 +9,38 @@ const {
     User
 } = require('../models');
 const bcrypt = require('bcryptjs');
+const {Op} = require('sequelize')
+const sequelize = require('sequelize')
 
 class Controller {
     //Home
     static async home(req, res) {
         try {
+
             let { userId, userRole } = req.session
-
-            console.log(userId, userRole)
-
+            console.log(userId)
             let nameOfUser = await User.userName(userId)
 
-            let hotel = await Hotel.findAll()
-            res.render('home', { hotel, nameOfUser, userRole, userId })
+            let {region} = req.query
+            let Allhotels = await Hotel.findAll()
+            let regionFilter = [...new Set(Allhotels.map(el => el.region))]
+
+            let queryRegion = region ? {region : {[Op.eq] : region}} : {}
+
+            let hotels = await Hotel.findAll({
+                where : queryRegion
+            })
+
+            res.render('home',{
+                hotels,
+                regionFilter,
+                region,
+                userId,
+                userRole,
+                nameOfUser
+            })
+            
+
         } catch (error) {
             console.log(error)
         }
@@ -55,20 +74,27 @@ class Controller {
     static async saveRegister(req, res) {
         try {
             // Menerima Input
-            const { username, password, email } = req.body
-
+            const { username, password, email, name, phone_number} = req.body
+            
             // Membuat data baru Table Users
-            let user = await User.create({
-                username: username,
-                email: email,
-                password: password,
-                role: 'user'
-            }, {
-                returning: true
+           const newUser = await User.create({
+                username,
+                email,
+                password,
+                role:'user'
+            })
+
+            console.log(newUser)
+
+            await Profile.create({
+                UserId: newUser.id,
+                name,
+                phone_number,
+                profile_pic:"/assets/images/default-pic.png"
             })
 
             // res.send(user)
-            res.redirect(`/login?username=${user.username}&&email=${user.email}`)
+            res.redirect(`/login`)
 
         } catch (error) {
             // console.log(error)
@@ -164,8 +190,10 @@ class Controller {
     // Profile
     static async profile(req, res) {
         try {
-            let nameOfUser
-            let userId
+            let { userId, userRole } = req.session
+            console.log(userId)
+            let nameOfUser = await User.userName(userId)
+
             let { UserId } = req.params
 
             // console.log(req.session)
@@ -228,12 +256,16 @@ class Controller {
 
             let { UserId } = req.params
 
-            let profile = await Profile.findAll({
+            let profile = await Profile.findOne({
                 where: {
-                    id: +UserId
+                    UserId: +UserId
                 }
             })
-            profile = profile[0]
+            console.log(UserId)
+            console.log(profile)
+            // profile = profile[0]
+            // console.log(UserId)
+            // console.log(profile)
 
             res.render("./user/editProfile", { nameOfUser, profile, UserId })
         } catch (error) {
@@ -246,17 +278,23 @@ class Controller {
     static async saveProfile(req, res) {
         try {
             let { UserId } = req.params
-            let {profile_pic} = req.body
+            let {profile_pic,name,phone_number} = req.body
 
             // console.log("123456")
 
             await Profile.update({
-                profile_pic:profile_pic
+                profile_pic,
+                name,
+                phone_number
+
             },{
                 where:{
                     id:+UserId
                 }
             })
+
+            // console.log(req.body)
+            
 
             res.redirect(`/user/${UserId}/profile`)
         } catch (error) {
