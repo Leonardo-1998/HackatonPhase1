@@ -12,7 +12,8 @@ const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize')
 const sequelize = require('sequelize')
 const streamifier = require('streamifier')
-const cloudinary = require('../config/cloudinary')
+const cloudinary = require('../config/cloudinary');
+const { currentDate } = require('../helper/helper');
 
 
 class Controller {
@@ -379,7 +380,8 @@ class Controller {
                 userId, 
                 userRole, 
                 nameOfUser,
-                errors
+                errors,
+                currentDate : currentDate()
              })
         } catch (error) {
             console.log(error)
